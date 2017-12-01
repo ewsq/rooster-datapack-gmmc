@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.github.io.protocol.annotation.AsciiString;
 import com.github.io.protocol.annotation.ByteOrder;
+import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
 
 /**
@@ -17,6 +18,16 @@ import com.github.io.protocol.annotation.Number;
  */
 public class ActivationData {
 	/**
+	 * 包头
+	 */
+	@Element
+	private Header header;
+	/**
+	 * 数据采集时间
+	 */
+	@Number(width = 8)
+	private Long gatherTime;
+	/**
 	 * 公钥长度<br>
 	 * TBox公钥长度。范围（0-255）
 	 */
@@ -27,13 +38,19 @@ public class ActivationData {
 	 * TBox公钥,长度为公钥长度定义的长度
 	 */
 	@Number(width = 8, length = "getKeyLength")
-	private Integer[] publicKey;
+	private byte[] publicKey;
 	/**
 	 * vin<br>
 	 * 车辆识别码是识别的唯一标识，由17位字码构成
 	 */
 	@AsciiString(length = "17")
 	private String vin;
+
+	/**
+	 * 包尾
+	 */
+	@Element
+	private Tail tail;
 
 	/**
 	 * 获取公钥长度
@@ -44,6 +61,30 @@ public class ActivationData {
 		return publicKeyLength;
 	}
 
+	public Long getGatherTime() {
+		return gatherTime;
+	}
+
+	public void setGatherTime(Long gatherTime) {
+		this.gatherTime = gatherTime;
+	}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
+	}
+
 	public Integer getPublicKeyLength() {
 		return publicKeyLength;
 	}
@@ -52,11 +93,11 @@ public class ActivationData {
 		this.publicKeyLength = publicKeyLength;
 	}
 
-	public Integer[] getPublicKey() {
+	public byte[] getPublicKey() {
 		return publicKey;
 	}
 
-	public void setPublicKey(Integer[] publicKey) {
+	public void setPublicKey(byte[] publicKey) {
 		this.publicKey = publicKey;
 	}
 
@@ -70,8 +111,9 @@ public class ActivationData {
 
 	@Override
 	public String toString() {
-		return "ActivationData [publicKeyLength=" + publicKeyLength + ", publicKey=" + Arrays.toString(publicKey)
-				+ ", vin=" + vin + "]";
+		return "ActivationData [header=" + header + ", gatherTime=" + gatherTime + ", publicKeyLength="
+				+ publicKeyLength + ", publicKey=" + Arrays.toString(publicKey) + ", vin=" + vin + ", tail=" + tail
+				+ "]";
 	}
 
 }

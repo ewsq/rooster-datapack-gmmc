@@ -2,6 +2,7 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.annotation.ByteOrder;
 import com.github.io.protocol.annotation.Decimal;
+import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
 
 /**
@@ -14,6 +15,17 @@ import com.github.io.protocol.annotation.Number;
  * @version: V1.0
  */
 public class AlarmData {
+	/**
+	 * 包头
+	 */
+	@Element
+	private Header header;
+	/**
+	 * 数据采集时间
+	 */
+	@Number(width = 8)
+	private Long gatherTime;
+
 	/**
 	 * 0:有效定位；1:无效定位（当数据通信正常，而不能获取定位信息时，发送最后一次有效定位信息，并将定位状态置为无效。）
 	 */
@@ -58,7 +70,7 @@ public class AlarmData {
 	 * 以米为单位，最小计量单元：0.1m
 	 */
 	@Decimal(width = 32, order = ByteOrder.BigEndian, scale = 0.1)
-	private float altitude;
+	private double altitude;
 	/**
 	 * 方向<br>
 	 * 有效值范围：0～359，正北为0，顺时针
@@ -111,6 +123,36 @@ public class AlarmData {
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
 	private long reserve1;
+
+	/**
+	 * 包尾
+	 */
+	@Element
+	private Tail tail;
+
+	public Long getGatherTime() {
+		return gatherTime;
+	}
+
+	public void setGatherTime(Long gatherTime) {
+		this.gatherTime = gatherTime;
+	}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
+	}
 
 	public Integer getIsValidate() {
 		return isValidate;
@@ -168,11 +210,11 @@ public class AlarmData {
 		this.speed = speed;
 	}
 
-	public float getAltitude() {
+	public double getAltitude() {
 		return altitude;
 	}
 
-	public void setAltitude(float altitude) {
+	public void setAltitude(double altitude) {
 		this.altitude = altitude;
 	}
 
@@ -242,12 +284,12 @@ public class AlarmData {
 
 	@Override
 	public String toString() {
-		return "AlarmData [isValidate=" + isValidate + ", latType=" + latType + ", lngType=" + lngType + ", reserveBit="
-				+ reserveBit + ", longitude=" + longitude + ", latitude=" + latitude + ", speed=" + speed
-				+ ", altitude=" + altitude + ", direction=" + direction + ", reserve=" + reserve + ", ariBagAlarm="
-				+ ariBagAlarm + ", crashAlarm=" + crashAlarm + ", antiTheftAlarm=" + antiTheftAlarm
-				+ ", lightNotClosedAlarm=" + lightNotClosedAlarm + ", batteryVoltageAlarm=" + batteryVoltageAlarm
-				+ ", reserve1=" + reserve1 + "]";
+		return "AlarmData [header=" + header + ", gatherTime=" + gatherTime + ", isValidate=" + isValidate
+				+ ", latType=" + latType + ", lngType=" + lngType + ", reserveBit=" + reserveBit + ", longitude="
+				+ longitude + ", latitude=" + latitude + ", speed=" + speed + ", altitude=" + altitude + ", direction="
+				+ direction + ", reserve=" + reserve + ", ariBagAlarm=" + ariBagAlarm + ", crashAlarm=" + crashAlarm
+				+ ", antiTheftAlarm=" + antiTheftAlarm + ", lightNotClosedAlarm=" + lightNotClosedAlarm
+				+ ", batteryVoltageAlarm=" + batteryVoltageAlarm + ", reserve1=" + reserve1 + ", tail=" + tail + "]";
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 import com.github.io.protocol.annotation.ByteOrder;
 import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Decimal;
+import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
@@ -22,6 +23,11 @@ import com.github.io.protocol.utils.HexStringUtil;
  * @version: V1.0
  */
 public class TripData {
+	/**
+	 * 包头
+	 */
+	@Element
+	private Header header = new Header();
 	/**
 	 * 行程开始时间
 	 */
@@ -38,7 +44,7 @@ public class TripData {
 	 * 0～100升/百公里），最小计量单元：0.1升/百公里，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效。
 	 */
 	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.1)
-	private Integer oilWearAvg;
+	private float oilWearAvg;
 
 	/**
 	 * 平均车速<br>
@@ -83,11 +89,33 @@ public class TripData {
 	@Number(width = 8)
 	private Integer sharpTurnTimes;
 
-	public Integer getOilWearAvg() {
+	/**
+	 * 包尾
+	 */
+	@Element
+	private Tail tail = new Tail();
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
+	}
+
+	public float getOilWearAvg() {
 		return oilWearAvg;
 	}
 
-	public void setOilWearAvg(Integer oilWearAvg) {
+	public void setOilWearAvg(float oilWearAvg) {
 		this.oilWearAvg = oilWearAvg;
 	}
 
@@ -163,12 +191,15 @@ public class TripData {
 		this.endTime = endTime;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "TripData [startTime=" + startTime + ", endTime=" + endTime + ", oilWearAvg=" + oilWearAvg
-				+ ", speedAvg=" + speedAvg + ", speedMax=" + speedMax + ", tripDuration=" + tripDuration + ", mileage="
-				+ mileage + ", rapidAccelerationTimes=" + rapidAccelerationTimes + ", rapidDecelerationTimes="
-				+ rapidDecelerationTimes + ", sharpTurnTimes=" + sharpTurnTimes + "]";
+		return "TripData [header=" + header + ", startTime=" + startTime + ", endTime=" + endTime + ", oilWearAvg="
+				+ oilWearAvg + ", speedAvg=" + speedAvg + ", speedMax=" + speedMax + ", tripDuration=" + tripDuration
+				+ ", mileage=" + mileage + ", rapidAccelerationTimes=" + rapidAccelerationTimes
+				+ ", rapidDecelerationTimes=" + rapidDecelerationTimes + ", sharpTurnTimes=" + sharpTurnTimes
+				+ ", tail=" + tail + "]";
 	}
 
 	public static void main(String[] args) throws Exception {

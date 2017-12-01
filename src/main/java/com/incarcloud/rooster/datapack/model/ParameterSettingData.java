@@ -1,8 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.annotation.AsciiString;
-import com.github.io.protocol.annotation.ByteOrder;
-import com.github.io.protocol.annotation.Number;
 
 /**
  * @Title: ParamSettingData.java

@@ -15,6 +15,11 @@ ext {
     MAVEN_REPOS_AUTH_PASSWORD = 'bbfan'
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 repositories {
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     maven {
@@ -27,8 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.incarcloud:rooster-shared-all:2.1-SNAPSHOT")
-
+    compile("com.incarcloud:rooster-shared-all:2.1.2-SNAPSHOT")
     compile("org.slf4j:slf4j-api:1.7.+")
     compile group: 'com.github.ioprotocol', name: 'com-github-ioprotocol', version: '1.2.0'
 

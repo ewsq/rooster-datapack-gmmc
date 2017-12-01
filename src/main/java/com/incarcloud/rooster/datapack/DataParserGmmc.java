@@ -1,15 +1,29 @@
 package com.incarcloud.rooster.datapack;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.github.io.protocol.core.ProtocolEngine;
+import com.incarcloud.rooster.datapack.model.CommonRespData;
+import com.incarcloud.rooster.datapack.model.Header;
+import com.incarcloud.rooster.datapack.model.Tail;
+import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.ActivationStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.AlarmDataStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.ElectricalCheckStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.HeartbeatStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.LoginDataStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.LogoutDataStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.PublicKeyResetStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.TripDataStrategy;
+import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.util.ReferenceCountUtil;
 
 /**
  * GMMC设备协议数据包解析器
@@ -22,7 +36,8 @@ public class DataParserGmmc implements IDataParser {
 	/**
 	 * Logger
 	 */
-	private static Logger _logger = LoggerFactory.getLogger(DataParserGmmc.class);
+	// private static Logger _logger = LoggerFactory
+	// .getLogger(DataParserGmmc.class);
 
 	/**
 	 * 协议分组和名称
@@ -140,12 +155,60 @@ public class DataParserGmmc implements IDataParser {
 	 */
 	@Override
 	public ByteBuf createResponse(DataPack requestPack, ERespReason reason) {
+		// 解析器
+		ProtocolEngine engine = new ProtocolEngine();
 		if (null != requestPack && null != reason) {
 			// 原始数据
 			byte[] dataPackBytes = Base64.getDecoder().decode(requestPack.getDataB64());
-			
-			
-			
+			if (null != dataPackBytes) {
+				try {
+					// 获取协议头部信息
+					byte[] headerBytes = GmmcDataPackUtils.getRange(dataPackBytes, 0, 24);
+					Header header = engine.decode(headerBytes, Header.class);// 包头
+					Tail tail = new Tail();// 包尾
+
+					/**
+					 * 获取命令标识,根据命令标识返回对于的消息<br>
+					 * 0x11 电检 通用应答 <br>
+					 * 0x12 激活 通用应答 <br>
+					 * 0x13 PublicKey重置 通用应答 <br>
+					 * 0x01 车辆登入 通用应答<br>
+					 * 0x05 车辆登出 通用应答<br>
+					 * 0x08 终端校时 通用应答<br>
+					 * 0x09 车辆告警信息上报 通用应答<br>
+					 * 0x21 参数设置命令 返回参数列表<br>
+					 * 0x22 参数设置完成 通用应答<br>
+					 * 0x23 OTA升级 返回升级信息<br>
+					 * 0x24 OTA升级完成 通用应答<br>
+					 */
+					Integer cmdFlag = dataPackBytes[4] & 0xFF;
+
+					if (0x11 == cmdFlag || 0x12 == cmdFlag || 0x13 == cmdFlag || 0x01 == cmdFlag || 0x05 == cmdFlag
+							|| 0x08 == cmdFlag || 0x09 == cmdFlag || 0x22 == cmdFlag) {
+						/**
+						 * 通用应答，设置应答标识 0x01 成功
+						 */
+						header.setResponeFlag(0x01);
+					} else if (0x21 == cmdFlag) { // TODO: 参数设置命令 返回参数设置列表
+
+					} else if (0x23 == cmdFlag) { // TODO: ota升级 返回ota升级信息
+					}
+					// 通用应答
+					CommonRespData resp = new CommonRespData();
+
+					resp.setHeader(header);// 消息头
+					resp.setGatherTime(System.currentTimeMillis());// 设置应答时间
+					resp.setTail(tail);// 包尾
+
+					byte[] responseBytes = engine.encode(resp);// 生成应答包byte数组
+					GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
+					// 返回应答消息
+					return Unpooled.wrappedBuffer(responseBytes);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		// TODO
 		return null;
@@ -156,7 +219,9 @@ public class DataParserGmmc implements IDataParser {
 	 */
 	@Override
 	public void destroyResponse(ByteBuf responseBuf) {
-		// TODO
+		if (null != responseBuf) {
+			ReferenceCountUtil.release(responseBuf);
+		}
 	}
 
 	/**
@@ -164,8 +229,72 @@ public class DataParserGmmc implements IDataParser {
 	 */
 	@Override
 	public List<DataPackTarget> extractBody(DataPack dataPack) {
-		// TODO
-		return null;
+		// TODO 解析完整数据包
+		List<DataPackTarget> dataPackTargetList = null;
+		// 获取完整的数据包
+		byte[] dataPackBytes = dataPack.getDataBytes();
+		if (null != dataPackBytes) {
+			dataPackTargetList = new ArrayList<>();
+			// 获取命令ID
+			Integer cmdFlag = dataPackBytes[4] & 0xFF;
+
+			switch (cmdFlag) {
+				case 0x01:// 车辆登入
+					GmmcDataPackUtils.debug("=====车辆登入=====");
+					// 解析登录信息
+					IDataPackStrategy loginDataStrategy = new LoginDataStrategy();
+					dataPackTargetList = loginDataStrategy.decode(dataPack);
+					break;
+
+				case 0x02:// 车辆运行信息上报
+					// TODO 车辆运行信息上报
+					break;
+				case 0x03:// 心跳
+					GmmcDataPackUtils.debug("=====心跳=====");
+					// 解析登录信息
+					IDataPackStrategy heartbeatStrategy = new HeartbeatStrategy();
+					dataPackTargetList = heartbeatStrategy.decode(dataPack);
+					break;
+
+				case 0x05:// 车辆登出
+					GmmcDataPackUtils.debug("=====车辆登出=====");
+					// 解析登录信息
+					IDataPackStrategy logoutDataStrategy = new LogoutDataStrategy();
+					dataPackTargetList = logoutDataStrategy.decode(dataPack);
+					break;
+				case 0x09:// 车辆登出
+					GmmcDataPackUtils.debug("=====车辆告警信息上报=====");
+					// 解析登录信息
+					IDataPackStrategy alarmDataStrategy = new AlarmDataStrategy();
+					dataPackTargetList = alarmDataStrategy.decode(dataPack);
+					break;
+				case 0x11:// 电检
+					GmmcDataPackUtils.debug("=====电检=====");
+					// 解析电检信息
+					IDataPackStrategy electricalCheckStrategy = new ElectricalCheckStrategy();
+					dataPackTargetList = electricalCheckStrategy.decode(dataPack);
+					break;
+				case 0x12:// 激活
+					// 解析设备激活信息
+					IDataPackStrategy activationStrategy = new ActivationStrategy();
+					activationStrategy.decode(dataPack);
+					break;
+				case 0x13:// PublicKey重置
+					GmmcDataPackUtils.debug("=====PublicKey重置=====");
+					// 解析PublicKey重置信息
+					IDataPackStrategy publicKeyStrategy = new PublicKeyResetStrategy();
+					publicKeyStrategy.decode(dataPack);
+					break;
+
+				case 0x0B:// 车辆行程数据
+					GmmcDataPackUtils.debug("=====车辆行程数据=====");
+					IDataPackStrategy tripDataStrategy = new TripDataStrategy();
+					dataPackTargetList = tripDataStrategy.decode(dataPack);
+					break;
+			}
+		}
+
+		return dataPackTargetList;
 	}
 
 	/**
@@ -173,7 +302,31 @@ public class DataParserGmmc implements IDataParser {
 	 */
 	@Override
 	public Map<String, Object> getMetaData(ByteBuf buffer) {
-		// TODO
+		// 获取解析报文并进行校验,报文校验不通过返回null
+		byte[] dataPackBytes = GmmcDataPackUtils.readBytes(buffer, buffer.readableBytes());
+		// 判断报文是否为空
+		if (null != dataPackBytes) {
+			// 获取命令ID
+			int cmdFlag = dataPackBytes[4] & 0xFF;
+
+			if (null != dataPackBytes) {
+				Map<String, Object> metaDataMap = new HashMap<>();
+				// 协议版本
+				metaDataMap.put("protocol", PROTOCOL_PREFIX + PROTOCOL_VERSION);
+				// 获取TBOX硬件的IMEI号码，由 15位字码构成，字码应符合GB16735 中 4.5 的规定
+				String imei = new String(GmmcDataPackUtils.getRange(dataPackBytes, 6, 21));
+				metaDataMap.put("imei", imei);
+				// 判断是否是登入报文,只有登入报文才有vin码，其他报文只有imei
+				if (1 == cmdFlag) {
+					/**
+					 * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
+					 */
+					String vin = new String(GmmcDataPackUtils.getRange(dataPackBytes, 180, 197));
+					metaDataMap.put("vin", vin.trim());
+				}
+				return metaDataMap;
+			}
+		}
 		return null;
 	}
 }

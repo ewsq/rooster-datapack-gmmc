@@ -41,7 +41,7 @@ public class LoginData {
 	 * 128位的密钥，用于对称加密。SecurityKey
 	 */
 	@Number(width = 8)
-	private Integer[] secretKey;
+	private Integer[] securityKey;
 	/**
 	 * 软件版本号
 	 */
@@ -113,12 +113,12 @@ public class LoginData {
 		this.serialNumber = serialNumber;
 	}
 
-	public Integer[] getSecretKey() {
-		return secretKey;
+	public Integer[] getSecurityKey() {
+		return securityKey;
 	}
 
-	public void setSecretKey(Integer[] secretKey) {
-		this.secretKey = secretKey;
+	public void setSecurityKey(Integer[] securityKey) {
+		this.securityKey = securityKey;
 	}
 
 	public String getSoftwareVersion() {
@@ -172,8 +172,8 @@ public class LoginData {
 	@Override
 	public String toString() {
 		return "LoginData [header=" + header + ", gatherTime=" + gatherTime + ", serialNumber=" + serialNumber
-				+ ", secretKey=" + Arrays.toString(secretKey) + ", softwareVersion=" + softwareVersion + ", vin=" + vin
-				+ ", electricalCount=" + electricalCount + ", electricalLenth=" + electricalLenth
+				+ ", securityKey=" + Arrays.toString(securityKey) + ", softwareVersion=" + softwareVersion + ", vin="
+				+ vin + ", electricalCount=" + electricalCount + ", electricalLenth=" + electricalLenth
 				+ ", electricalSysCode=" + electricalSysCode + ", tail=" + tail + "]";
 	}
 
