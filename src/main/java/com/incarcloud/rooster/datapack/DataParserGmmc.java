@@ -18,6 +18,7 @@ import com.incarcloud.rooster.datapack.strategy.impl.HeartbeatStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.LoginDataStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.LogoutDataStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.PublicKeyResetStrategy;
+import com.incarcloud.rooster.datapack.strategy.impl.RunDataStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.TripDataStrategy;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
 
@@ -247,13 +248,24 @@ public class DataParserGmmc implements IDataParser {
 					break;
 
 				case 0x02:// 车辆运行信息上报
-					// TODO 车辆运行信息上报
+					GmmcDataPackUtils.debug("=====车辆运行信息上报=====");
+					// 解析车辆运行信息上报
+					IDataPackStrategy runDataStrategy = new RunDataStrategy();
+					dataPackTargetList = runDataStrategy.decode(dataPack);
 					break;
+
 				case 0x03:// 心跳
 					GmmcDataPackUtils.debug("=====心跳=====");
 					// 解析登录信息
 					IDataPackStrategy heartbeatStrategy = new HeartbeatStrategy();
 					dataPackTargetList = heartbeatStrategy.decode(dataPack);
+					break;
+
+				case 0x04:// 补发信息上报
+					GmmcDataPackUtils.debug("=====补发信息上报=====");
+					// 解析补发信息
+					IDataPackStrategy reissueDataStrategy = new RunDataStrategy();
+					dataPackTargetList = reissueDataStrategy.decode(dataPack);
 					break;
 
 				case 0x05:// 车辆登出
@@ -262,23 +274,27 @@ public class DataParserGmmc implements IDataParser {
 					IDataPackStrategy logoutDataStrategy = new LogoutDataStrategy();
 					dataPackTargetList = logoutDataStrategy.decode(dataPack);
 					break;
-				case 0x09:// 车辆登出
+
+				case 0x09:// 车辆告警信息上报
 					GmmcDataPackUtils.debug("=====车辆告警信息上报=====");
 					// 解析登录信息
 					IDataPackStrategy alarmDataStrategy = new AlarmDataStrategy();
 					dataPackTargetList = alarmDataStrategy.decode(dataPack);
 					break;
+
 				case 0x11:// 电检
 					GmmcDataPackUtils.debug("=====电检=====");
 					// 解析电检信息
 					IDataPackStrategy electricalCheckStrategy = new ElectricalCheckStrategy();
 					dataPackTargetList = electricalCheckStrategy.decode(dataPack);
 					break;
+
 				case 0x12:// 激活
 					// 解析设备激活信息
 					IDataPackStrategy activationStrategy = new ActivationStrategy();
 					activationStrategy.decode(dataPack);
 					break;
+
 				case 0x13:// PublicKey重置
 					GmmcDataPackUtils.debug("=====PublicKey重置=====");
 					// 解析PublicKey重置信息
