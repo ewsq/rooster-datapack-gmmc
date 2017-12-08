@@ -304,12 +304,28 @@ public class OverviewData {
 	private Integer rechargeMileage;
 
 	/**
+	 * 车灯状态<br>
+	 * 0x01：开<br>
+	 * 0x02：关<br>
+	 * “0xFE”表示异常<br>
+	 * “0xFF”表示无效<br>
+	 */
+	@Number(width = 8)
+	private Integer lightStatus;
+
+	/**
 	 * 预留字段
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
 	private Integer reserve;
-	
-	
+
+	public Integer getLightStatus() {
+		return lightStatus;
+	}
+
+	public void setLightStatus(Integer lightStatus) {
+		this.lightStatus = lightStatus;
+	}
 
 	public Integer getFrontCover() {
 		return frontCover;
@@ -573,9 +589,8 @@ public class OverviewData {
 				+ ", leftFrontWindowStatus=" + leftFrontWindowStatus + ", rightFrontWindowStatus="
 				+ rightFrontWindowStatus + ", leftBackWindowStatus=" + leftBackWindowStatus + ", rightBackWindowStatus="
 				+ rightBackWindowStatus + ", OutsideTemperature=" + OutsideTemperature + ", insideTemperature="
-				+ insideTemperature + ", rechargeMileage=" + rechargeMileage + ", reserve=" + reserve + "]";
+				+ insideTemperature + ", rechargeMileage=" + rechargeMileage + ", lightStatus=" + lightStatus
+				+ ", reserve=" + reserve + "]";
 	}
-	
-	
 
 }

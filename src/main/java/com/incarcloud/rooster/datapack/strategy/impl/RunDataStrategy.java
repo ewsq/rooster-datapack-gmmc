@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.DataPack;
-import com.incarcloud.rooster.datapack.DataPackObject;
-import com.incarcloud.rooster.datapack.DataPackOverview;
-import com.incarcloud.rooster.datapack.DataPackPosition;
-import com.incarcloud.rooster.datapack.DataPackTarget;
+import com.incarcloud.rooster.datapack.*;
 import com.incarcloud.rooster.datapack.model.OverviewData;
 import com.incarcloud.rooster.datapack.model.PositionData;
 import com.incarcloud.rooster.datapack.model.RunData;
-import com.incarcloud.rooster.datapack.model.TripData;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
 
@@ -85,7 +81,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 				} else if (dataBuffer[index] == (byte) 0x03) { // 整车数据
 					try {
 						index += 1;
-						int length = 41;
+						int length = 42;
 						byte[] eleBuffer = new byte[length];
 						System.arraycopy(dataBuffer, index, eleBuffer, 0, length);
 						OverviewData overviewData = engine.decode(eleBuffer, OverviewData.class);
@@ -99,8 +95,8 @@ public class RunDataStrategy implements IDataPackStrategy {
 						dataPackOverview.setVoltage(overviewData.getVoltage());// 电压（V）
 						dataPackOverview.setCurrent(overviewData.getCurrent());// 电流（A）
 						dataPackOverview.setSoc(overviewData.getSoc());// SOC
-						dataPackOverview.setDcdcStatus(overviewData.getDcdcStatus());// DC-DC
-																						// 状态
+						dataPackOverview.setDcdcStatus(overviewData.getDcdcStatus());// dcdc状态
+						
 						/**
 						 * 档位状态
 						 */
@@ -135,6 +131,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 						dataPackOverview.setOutsideTemperature(overviewData.getOutsideTemperature());// 车外温度
 						dataPackOverview.setInsideTemperature(overviewData.getInsideTemperature());// 车内温度
 						dataPackOverview.setRechargeMileage(overviewData.getRechargeMileage());// 续航里程
+						dataPackOverview.setLightStatus(overviewData.getLightStatus());// 车灯状态
 
 						dataPackTargetList.add(new DataPackTarget(dataPackOverview));
 
@@ -223,5 +220,4 @@ public class RunDataStrategy implements IDataPackStrategy {
 	public byte[] encode(DataPack dataPack) {
 		return null;
 	}
-
 }
