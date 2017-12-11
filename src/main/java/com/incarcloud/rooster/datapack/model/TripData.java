@@ -48,46 +48,48 @@ public class TripData {
 
 	/**
 	 * 平均车速<br>
-	 * 有效值范围： 0～1000单位：公里/小时，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效
+	 * 有效值范围：0～2200（表示0 km/h～220
+	 * km/h），最小计量单元：0.1km/h，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效。<br>
 	 */
-	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer speedAvg;
+	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.1)
+	private float speedAvg;
 	/**
 	 * 最高车速<br>
-	 * 有效值范围： 0～1000单位：公里/小时，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效
+	 * 有效值范围：0～2200（表示0 km/h～220
+	 * km/h），最小计量单元：0.1km/h，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效。<br>
 	 */
-	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer speedMax;
+	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.1)
+	private float speedMax;
 	/**
 	 * 行程时长<br>
 	 * 有效值范围： 0～500000单位：分钟，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer tripDuration;
+	private int tripDuration;
 	/**
 	 * 行程行驶里程<br>
 	 * 有效值范围： 0～100000单位：公里，“0xFF,0xFE”表示异常，“0xFF,0xFF”表示无效
 	 */
-	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer mileage;
+	@Decimal(width = 32, order = ByteOrder.BigEndian, scale = 0.1)
+	private float mileage;
 	/**
 	 * 急加速次数<br>
 	 * 有效值范围： 0～255单位：次，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer rapidAccelerationTimes;
+	private int rapidAccelerationTimes;
 	/**
 	 * 急减速次数<br>
 	 * 有效值范围： 0～255单位：次，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer rapidDecelerationTimes;
+	private int rapidDecelerationTimes;
 	/**
 	 * 急转弯次数<br>
 	 * 有效值范围： 0～255单位：次，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer sharpTurnTimes;
+	private int sharpTurnTimes;
 
 	/**
 	 * 包尾
@@ -101,78 +103,6 @@ public class TripData {
 
 	public void setHeader(Header header) {
 		this.header = header;
-	}
-
-	public Tail getTail() {
-		return tail;
-	}
-
-	public void setTail(Tail tail) {
-		this.tail = tail;
-	}
-
-	public float getOilWearAvg() {
-		return oilWearAvg;
-	}
-
-	public void setOilWearAvg(float oilWearAvg) {
-		this.oilWearAvg = oilWearAvg;
-	}
-
-	public Integer getSpeedAvg() {
-		return speedAvg;
-	}
-
-	public void setSpeedAvg(Integer speedAvg) {
-		this.speedAvg = speedAvg;
-	}
-
-	public Integer getSpeedMax() {
-		return speedMax;
-	}
-
-	public void setSpeedMax(Integer speedMax) {
-		this.speedMax = speedMax;
-	}
-
-	public Integer getTripDuration() {
-		return tripDuration;
-	}
-
-	public void setTripDuration(Integer tripDuration) {
-		this.tripDuration = tripDuration;
-	}
-
-	public Integer getMileage() {
-		return mileage;
-	}
-
-	public void setMileage(Integer mileage) {
-		this.mileage = mileage;
-	}
-
-	public Integer getRapidAccelerationTimes() {
-		return rapidAccelerationTimes;
-	}
-
-	public void setRapidAccelerationTimes(Integer rapidAccelerationTimes) {
-		this.rapidAccelerationTimes = rapidAccelerationTimes;
-	}
-
-	public Integer getRapidDecelerationTimes() {
-		return rapidDecelerationTimes;
-	}
-
-	public void setRapidDecelerationTimes(Integer rapidDecelerationTimes) {
-		this.rapidDecelerationTimes = rapidDecelerationTimes;
-	}
-
-	public Integer getSharpTurnTimes() {
-		return sharpTurnTimes;
-	}
-
-	public void setSharpTurnTimes(Integer sharpTurnTimes) {
-		this.sharpTurnTimes = sharpTurnTimes;
 	}
 
 	public long getStartTime() {
@@ -191,7 +121,77 @@ public class TripData {
 		this.endTime = endTime;
 	}
 
-	
+	public float getOilWearAvg() {
+		return oilWearAvg;
+	}
+
+	public void setOilWearAvg(float oilWearAvg) {
+		this.oilWearAvg = oilWearAvg;
+	}
+
+	public float getSpeedAvg() {
+		return speedAvg;
+	}
+
+	public void setSpeedAvg(float speedAvg) {
+		this.speedAvg = speedAvg;
+	}
+
+	public float getSpeedMax() {
+		return speedMax;
+	}
+
+	public void setSpeedMax(float speedMax) {
+		this.speedMax = speedMax;
+	}
+
+	public int getTripDuration() {
+		return tripDuration;
+	}
+
+	public void setTripDuration(int tripDuration) {
+		this.tripDuration = tripDuration;
+	}
+
+	public float getMileage() {
+		return mileage;
+	}
+
+	public void setMileage(float mileage) {
+		this.mileage = mileage;
+	}
+
+	public int getRapidAccelerationTimes() {
+		return rapidAccelerationTimes;
+	}
+
+	public void setRapidAccelerationTimes(int rapidAccelerationTimes) {
+		this.rapidAccelerationTimes = rapidAccelerationTimes;
+	}
+
+	public int getRapidDecelerationTimes() {
+		return rapidDecelerationTimes;
+	}
+
+	public void setRapidDecelerationTimes(int rapidDecelerationTimes) {
+		this.rapidDecelerationTimes = rapidDecelerationTimes;
+	}
+
+	public int getSharpTurnTimes() {
+		return sharpTurnTimes;
+	}
+
+	public void setSharpTurnTimes(int sharpTurnTimes) {
+		this.sharpTurnTimes = sharpTurnTimes;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
+	}
 
 	@Override
 	public String toString() {

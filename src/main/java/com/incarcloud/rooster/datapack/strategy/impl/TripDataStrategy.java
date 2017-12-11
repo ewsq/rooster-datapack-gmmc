@@ -55,13 +55,13 @@ public class TripDataStrategy implements IDataPackStrategy {
 
 		// 构建返回的数据
 		DataPackTrip dataPackTrip = new DataPackTrip(dataPackObject);
-		dataPackTrip.setStartTime(tripData.getStartTime());// 行程开始时间
-		dataPackTrip.setEndTime(tripData.getEndTime());// 行程结束时间
+		dataPackTrip.setStartTime(new Date(tripData.getStartTime()));// 行程开始时间
+		dataPackTrip.setEndTime(new Date(tripData.getEndTime()));// 行程结束时间
 		dataPackTrip.setOilWearAvg(tripData.getOilWearAvg());// 平均油耗
 		dataPackTrip.setSpeedAvg(tripData.getSpeedAvg());// 平均车速
 		dataPackTrip.setSpeedMax(tripData.getSpeedMax());// 最高车速
 		dataPackTrip.setTripDuration(tripData.getTripDuration());// 行程时长
-		dataPackTrip.setMileage(tripData.getMileage());// 行程行驶里程
+		dataPackTrip.setMileage((int) (tripData.getMileage() * 1000));// 行程行驶里程,返回给后台的数据转换为米
 		dataPackTrip.setRapidAccelerationTimes(tripData.getRapidAccelerationTimes());// 急加速次数
 		dataPackTrip.setRapidDecelerationTimes(tripData.getRapidDecelerationTimes());// 急减速次数
 		dataPackTrip.setSharpTurnTimes(tripData.getSharpTurnTimes());// 急转弯次数
