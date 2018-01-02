@@ -151,7 +151,7 @@ public class GmmcDataPackUtils extends DataPackUtil {
 			buffer[22] = (byte) ((length >>> 8) & 0xFF);
 			buffer[23] = (byte) (length & 0xFF);
 			// 添加校验码
-			int crc = buffer[2] & 0xFF;
+			int crc = buffer[4] & 0xFF;
 			for (int i = 3; i < buffer.length - 1; i++) {
 				crc = crc ^ (buffer[i] & 0xFF);
 			}
@@ -241,15 +241,15 @@ public class GmmcDataPackUtils extends DataPackUtil {
 	public static String getMsgEncryptMode(int msgEncryptMode) {
 		String msgEncryptName = "";
 		switch (msgEncryptMode) {
-		case 0:
-			// 消息体不加密
-			break;
-		case 1:
-			// 第 10 位为 1，表示消息体经过 RSA 算法加密
-			msgEncryptName = "RSA";
-		case 0xFF:
-			// 第 10 位为 1，表示消息体经过 RSA 算法加密
-			break;
+			case 0:
+				// 消息体不加密
+				break;
+			case 1:
+				// 第 10 位为 1，表示消息体经过 RSA 算法加密
+				msgEncryptName = "RSA";
+			case 0xFF:
+				// 第 10 位为 1，表示消息体经过 RSA 算法加密
+				break;
 		}
 		return msgEncryptName;
 	}

@@ -3,8 +3,6 @@ package com.incarcloud.rooster.datapack.model;
 import com.github.io.protocol.annotation.AsciiString;
 import com.github.io.protocol.annotation.ByteOrder;
 import com.github.io.protocol.annotation.Number;
-import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
 
 /**
  * @Title: Header.java
@@ -70,24 +68,6 @@ public class Header {
 	public Header() {
 	}
 
-	public static void main(String[] args) throws Exception {
-		ProtocolEngine engine = new ProtocolEngine();
-		Header header = new Header();
-		header.setCmdFlag(0x11);
-		header.setCarType(0x01);
-		header.setEncryptType(0x01);
-		header.setCarFlag(0x01);
-	//	header.setGatherTime(System.currentTimeMillis());
-		header.setImei("000000000000000");
-		header.setLength(0);
-		header.setResponeFlag(0x01);
-		header.setCarFlag(0x01);
-		byte[] bytes = engine.encode(header);
-		System.out.println(HexStringUtil.toHexString(engine.encode(header)));
-		Header h1 = engine.decode(bytes, Header.class);
-		System.out.println(h1.getImei());
-
-	}
 
 	@Override
 	public String toString() {

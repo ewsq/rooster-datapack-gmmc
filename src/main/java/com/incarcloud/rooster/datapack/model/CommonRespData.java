@@ -1,7 +1,7 @@
 package com.incarcloud.rooster.datapack.model;
 
+import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
-import com.github.io.protocol.annotation.Number;
 
 /**
  * @Title: CommonRespData.java
@@ -21,13 +21,17 @@ public class CommonRespData {
 	/**
 	 * 数据采集时间
 	 */
-	@Number(width = 8)
+	@DateTime
 	private Long gatherTime;
 	/**
 	 * 包尾
 	 */
 	@Element
 	private Tail tail;
+
+	public static void main(String[] args) {
+
+	}
 
 	public Long getGatherTime() {
 		return gatherTime;
