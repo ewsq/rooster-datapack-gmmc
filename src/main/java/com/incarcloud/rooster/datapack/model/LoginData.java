@@ -40,7 +40,7 @@ public class LoginData {
 	 * <p>
 	 * 128位的密钥，用于对称加密。SecurityKey
 	 */
-	@Number(width = 8)
+	@Number(width = 8, length = "128", order = ByteOrder.BigEndian)
 	private Integer[] securityKey;
 	/**
 	 * 软件版本号

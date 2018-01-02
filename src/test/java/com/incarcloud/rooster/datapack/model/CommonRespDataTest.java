@@ -1,15 +1,21 @@
 package com.incarcloud.rooster.datapack.model;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 /**
  * @Title: CommonRespDataTest.java
@@ -21,8 +27,16 @@ import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
  * @version: V1.0
  */
 public class CommonRespDataTest {
+	String resp;
+
+	@Before
+	public void before() {
+		ProtocolEngine engin = new ProtocolEngine();
+		resp = "2323020101013836323233343032313034323437300000061201020A163403";
+	}
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		ProtocolEngine engin = new ProtocolEngine();
 		String resp = "2323020101013836323233343032313034323437300000061201020A163403";
@@ -37,9 +51,18 @@ public class CommonRespDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void checkTest() {
 		String resp = "2323020101013836323233343032313034323437300000010c00";
 		byte[] bytes = GmmcDataPackUtils.addCheck(HexStringUtil.parseBytes(resp));
 		System.out.println(HexStringUtil.toHexString(bytes));
+	}
+
+	@Test
+	@Ignore
+	public void bufferTest() throws UnsupportedEncodingException {
+		ByteBuf buffer = Unpooled.buffer();
+		buffer.writeBytes(HexStringUtil.parseBytes(resp));
+
 	}
 }

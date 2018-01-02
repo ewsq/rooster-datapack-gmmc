@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.utils.HexStringUtil;
@@ -16,6 +17,7 @@ import io.netty.buffer.Unpooled;
 public class DataParserGmmcTest {
 
 	@Test
+	@Ignore
 	public void testPrint() {
 		System.out.println("hello");
 	}

@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -10,8 +11,9 @@ import org.junit.Test;
  */
 public class GmmcCommandFacotryTest {
 
-    @Test
-    public void testPrint() {
-        System.out.println("hello");
-    }
+	@Test
+	@Ignore
+	public void testPrint() {
+		System.out.println("hello");
+	}
 }
