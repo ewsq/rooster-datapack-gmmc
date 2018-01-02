@@ -55,7 +55,7 @@ public class DataParserGmmc implements IDataParser {
 		/**
 		 * 声明数据包版本与解析器类关系
 		 */
-		DataParserManager.register(PROTOCOL_PREFIX + "0.3", DataParserGmmc.class);
+		DataParserManager.register(PROTOCOL_PREFIX + PROTOCOL_VERSION, DataParserGmmc.class);
 	}
 
 	/**

@@ -1,8 +1,11 @@
 package com.incarcloud.rooster.datapack.utils;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.incarcloud.rooster.util.DataPackUtil;
 
@@ -252,6 +255,25 @@ public class GmmcDataPackUtils extends DataPackUtil {
 				break;
 		}
 		return msgEncryptName;
+	}
+
+	/**
+	 * int[]转换成base64字符串
+	 * 
+	 * @param ints
+	 *            int数组
+	 * @return
+	 */
+	public static String getBase64OfInt(int[] ints) {
+		String msg = "";
+		if (ArrayUtils.isNotEmpty(ints)) {
+			byte[] byteArray = new byte[128];
+			for (int i = 0; i < ints.length; i++) {
+				byteArray[i] = (byte) ints[i];
+			}
+			return Base64.getEncoder().encodeToString(byteArray);
+		}
+		return msg;
 	}
 
 	protected GmmcDataPackUtils() {
