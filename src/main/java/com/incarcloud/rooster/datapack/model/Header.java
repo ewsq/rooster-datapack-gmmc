@@ -18,31 +18,31 @@ public class Header {
 	 * 起始符 固定为ASCII字符‘##’，用“0x23,0x23”表示
 	 */
 	@Number(width = 16)
-	private Integer startFiled = 0x2323;
+	private int startFiled = 0x2323;
 
 	/**
 	 * 车辆类型标识 0x01燃油车 ；0x02 新能源车
 	 */
 	@Number(width = 8)
-	private Integer carFlag;
+	private int carFlag;
 
 	/**
 	 * 车型 0x01 ZC；0xRE NS；0x03 NS
 	 */
 	@Number(width = 8)
-	private Integer carType;
+	private int carType;
 
 	/**
 	 * 命令标识
 	 */
 	@Number(width = 8)
-	private Integer cmdFlag;
+	private int cmdFlag;
 
 	/**
 	 * 应答标志
 	 */
 	@Number(width = 8)
-	private Integer responeFlag;
+	private int responeFlag;
 
 	/**
 	 * IMEI TBOX硬件的IMEI号码
@@ -54,20 +54,19 @@ public class Header {
 	 * 数据加密方式 0x00：数据不加密；0x01：数据经过RSA算法加密；0xFF：无效数据；其他预留
 	 */
 	@Number(width = 8)
-	private Integer encryptType;
+	private int encryptType;
 
 	/**
 	 * 数据单元长度 数据单元长度是数据单元的总字节数，有效值范围：0～65534
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer length = 0;
+	private int length = 0;
 
 	/**
 	 * 默认构造器
 	 */
 	public Header() {
 	}
-
 
 	@Override
 	public String toString() {
@@ -76,43 +75,43 @@ public class Header {
 				+ ", length=" + length + "]";
 	}
 
-	public Integer getStartFiled() {
+	public int getStartFiled() {
 		return startFiled;
 	}
 
-	public void setStartFiled(Integer startFiled) {
+	public void setStartFiled(int startFiled) {
 		this.startFiled = startFiled;
 	}
 
-	public Integer getCarFlag() {
+	public int getCarFlag() {
 		return carFlag;
 	}
 
-	public void setCarFlag(Integer carFlag) {
+	public void setCarFlag(int carFlag) {
 		this.carFlag = carFlag;
 	}
 
-	public Integer getCarType() {
+	public int getCarType() {
 		return carType;
 	}
 
-	public void setCarType(Integer carType) {
+	public void setCarType(int carType) {
 		this.carType = carType;
 	}
 
-	public Integer getCmdFlag() {
+	public int getCmdFlag() {
 		return cmdFlag;
 	}
 
-	public void setCmdFlag(Integer cmdFlag) {
+	public void setCmdFlag(int cmdFlag) {
 		this.cmdFlag = cmdFlag;
 	}
 
-	public Integer getResponeFlag() {
+	public int getResponeFlag() {
 		return responeFlag;
 	}
 
-	public void setResponeFlag(Integer responeFlag) {
+	public void setResponeFlag(int responeFlag) {
 		this.responeFlag = responeFlag;
 	}
 
@@ -124,19 +123,20 @@ public class Header {
 		this.imei = imei;
 	}
 
-	public Integer getEncryptType() {
+	public int getEncryptType() {
 		return encryptType;
 	}
 
-	public void setEncryptType(Integer encryptType) {
+	public void setEncryptType(int encryptType) {
 		this.encryptType = encryptType;
 	}
 
-	public Integer getLength() {
+	public int getLength() {
 		return length;
 	}
 
-	public void setLength(Integer length) {
+	public void setLength(int length) {
 		this.length = length;
 	}
+
 }

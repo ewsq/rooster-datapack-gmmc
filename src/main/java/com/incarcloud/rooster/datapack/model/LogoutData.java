@@ -24,12 +24,12 @@ public class LogoutData {
 	 * 登出时间
 	 */
 	@DateTime
-	private Long logoutTime;
+	private long logoutTime;
 	/**
 	 * 登出流水号
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer serialNumber;
+	private int serialNumber;
 	/**
 	 * 包尾
 	 */
@@ -44,19 +44,19 @@ public class LogoutData {
 		this.header = header;
 	}
 
-	public Long getLogoutTime() {
+	public long getLogoutTime() {
 		return logoutTime;
 	}
 
-	public void setLogoutTime(Long logoutTime) {
+	public void setLogoutTime(long logoutTime) {
 		this.logoutTime = logoutTime;
 	}
 
-	public Integer getSerialNumber() {
+	public int getSerialNumber() {
 		return serialNumber;
 	}
 
-	public void setSerialNumber(Integer serialNumber) {
+	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 

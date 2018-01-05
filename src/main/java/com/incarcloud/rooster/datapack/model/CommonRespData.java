@@ -22,22 +22,18 @@ public class CommonRespData {
 	 * 数据采集时间
 	 */
 	@DateTime
-	private Long gatherTime;
+	private long gatherTime;
 	/**
 	 * 包尾
 	 */
 	@Element
 	private Tail tail;
 
-	public static void main(String[] args) {
-
-	}
-
-	public Long getGatherTime() {
+	public long getGatherTime() {
 		return gatherTime;
 	}
 
-	public void setGatherTime(Long gatherTime) {
+	public void setGatherTime(long gatherTime) {
 		this.gatherTime = gatherTime;
 	}
 

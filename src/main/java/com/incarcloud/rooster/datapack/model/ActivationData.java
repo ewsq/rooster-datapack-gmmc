@@ -26,19 +26,19 @@ public class ActivationData {
 	 * 数据采集时间
 	 */
 	@Number(width = 8)
-	private Long gatherTime;
+	private long gatherTime;
 	/**
 	 * 公钥长度<br>
 	 * TBox公钥长度。范围（0-255）
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer publicKeyLength;
+	private int publicKeyLength;
 	/**
 	 * 公钥<br>
 	 * TBox公钥,长度为公钥长度定义的长度
 	 */
 	@Number(width = 8, length = "getKeyLength")
-	private byte[] publicKey;
+	private int[] publicKey;
 	/**
 	 * vin<br>
 	 * 车辆识别码是识别的唯一标识，由17位字码构成
@@ -46,28 +46,15 @@ public class ActivationData {
 	@AsciiString(length = "17")
 	private String vin;
 
+	public int getKeyLength() {
+		return publicKeyLength;
+	}
+
 	/**
 	 * 包尾
 	 */
 	@Element
 	private Tail tail;
-
-	/**
-	 * 获取公钥长度
-	 * 
-	 * @return
-	 */
-	public Integer getKeyLength() {
-		return publicKeyLength;
-	}
-
-	public Long getGatherTime() {
-		return gatherTime;
-	}
-
-	public void setGatherTime(Long gatherTime) {
-		this.gatherTime = gatherTime;
-	}
 
 	public Header getHeader() {
 		return header;
@@ -77,27 +64,27 @@ public class ActivationData {
 		this.header = header;
 	}
 
-	public Tail getTail() {
-		return tail;
+	public long getGatherTime() {
+		return gatherTime;
 	}
 
-	public void setTail(Tail tail) {
-		this.tail = tail;
+	public void setGatherTime(long gatherTime) {
+		this.gatherTime = gatherTime;
 	}
 
-	public Integer getPublicKeyLength() {
+	public int getPublicKeyLength() {
 		return publicKeyLength;
 	}
 
-	public void setPublicKeyLength(Integer publicKeyLength) {
+	public void setPublicKeyLength(int publicKeyLength) {
 		this.publicKeyLength = publicKeyLength;
 	}
 
-	public byte[] getPublicKey() {
+	public int[] getPublicKey() {
 		return publicKey;
 	}
 
-	public void setPublicKey(byte[] publicKey) {
+	public void setPublicKey(int[] publicKey) {
 		this.publicKey = publicKey;
 	}
 
@@ -107,6 +94,14 @@ public class ActivationData {
 
 	public void setVin(String vin) {
 		this.vin = vin;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
 	}
 
 	@Override

@@ -16,18 +16,18 @@ public class Tail {
 	 * 校验码 采用BCC（异或校验）法，校验范围从命令单元的第一个字节开始，同后一字节异或，直到校验码前一字节为止，校验码占用一个字节
 	 */
 	@Number(width = 8)
-	private Integer check = 0;
+	private int check = 0;
 
 	@Override
 	public String toString() {
 		return "Tail [check=" + check + "]";
 	}
 
-	public Integer getCheck() {
+	public int getCheck() {
 		return check;
 	}
 
-	public void setCheck(Integer check) {
+	public void setCheck(int check) {
 		this.check = check;
 	}
 

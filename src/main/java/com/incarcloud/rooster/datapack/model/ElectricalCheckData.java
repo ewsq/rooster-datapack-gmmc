@@ -1,7 +1,7 @@
 package com.incarcloud.rooster.datapack.model;
 
+import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
-import com.github.io.protocol.annotation.Number;
 
 /**
  * @Title: ElectricalCheckData.java
@@ -21,8 +21,8 @@ public class ElectricalCheckData {
 	/**
 	 * 数据采集时间
 	 */
-	@Number(width = 8)
-	private Long gatherTime;
+	@DateTime
+	private long gatherTime;
 
 	/**
 	 * 包尾

@@ -24,28 +24,28 @@ public class AlarmData {
 	 * 数据采集时间
 	 */
 	@Number(width = 8)
-	private Long gatherTime;
+	private long gatherTime;
 
 	/**
 	 * 0:有效定位；1:无效定位（当数据通信正常，而不能获取定位信息时，发送最后一次有效定位信息，并将定位状态置为无效。）
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer isValidate = 0;
+	private int isValidate;
 	/**
 	 * 0:北纬；1:南纬
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer latType = 0;
+	private int latType;
 	/**
 	 * 0:东经；1:西经
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer lngType = 0;
+	private int lngType;
 	/**
 	 * 保留
 	 */
 	@Number(width = 5, order = ByteOrder.BigEndian)
-	private Integer reserveBit = 0;
+	private Integer reserveBit;
 	/**
 	 * 经度<br>
 	 * 以度为单位的纬度值乘以10的6次方，精确到百万分之一度
@@ -76,7 +76,7 @@ public class AlarmData {
 	 * 有效值范围：0～359，正北为0，顺时针
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer direction;
+	private int direction;
 	/**
 	 * 保留位
 	 */
@@ -88,35 +88,35 @@ public class AlarmData {
 	 * 0:未触发,1:触发
 	 */
 	@Number(width = 8)
-	private Integer ariBagAlarm;
+	private int ariBagAlarm;
 
 	/**
 	 * 碰撞告警<br>
 	 * 0:未触发,1:触发
 	 */
 	@Number(width = 8)
-	private Integer crashAlarm;
+	private int crashAlarm;
 
 	/**
 	 * 防盗告警<br>
 	 * 0:未触发,1:触发
 	 */
 	@Number(width = 8)
-	private Integer antiTheftAlarm;
+	private int antiTheftAlarm;
 
 	/**
 	 * 灯光未关闭告警<br>
 	 * 0:未触发,1:触发
 	 */
 	@Number(width = 8)
-	private Integer lightNotClosedAlarm;
+	private int lightNotClosedAlarm;
 
 	/**
 	 * 蓄电池电压异常告警<br>
 	 * 0:未触发,1:触发
 	 */
 	@Number(width = 8)
-	private Integer batteryVoltageAlarm;
+	private int batteryVoltageAlarm;
 
 	/**
 	 * 保留位
@@ -130,14 +130,6 @@ public class AlarmData {
 	@Element
 	private Tail tail;
 
-	public Long getGatherTime() {
-		return gatherTime;
-	}
-
-	public void setGatherTime(Long gatherTime) {
-		this.gatherTime = gatherTime;
-	}
-
 	public Header getHeader() {
 		return header;
 	}
@@ -146,35 +138,35 @@ public class AlarmData {
 		this.header = header;
 	}
 
-	public Tail getTail() {
-		return tail;
+	public long getGatherTime() {
+		return gatherTime;
 	}
 
-	public void setTail(Tail tail) {
-		this.tail = tail;
+	public void setGatherTime(long gatherTime) {
+		this.gatherTime = gatherTime;
 	}
 
-	public Integer getIsValidate() {
+	public int getIsValidate() {
 		return isValidate;
 	}
 
-	public void setIsValidate(Integer isValidate) {
+	public void setIsValidate(int isValidate) {
 		this.isValidate = isValidate;
 	}
 
-	public Integer getLatType() {
+	public int getLatType() {
 		return latType;
 	}
 
-	public void setLatType(Integer latType) {
+	public void setLatType(int latType) {
 		this.latType = latType;
 	}
 
-	public Integer getLngType() {
+	public int getLngType() {
 		return lngType;
 	}
 
-	public void setLngType(Integer lngType) {
+	public void setLngType(int lngType) {
 		this.lngType = lngType;
 	}
 
@@ -218,11 +210,11 @@ public class AlarmData {
 		this.altitude = altitude;
 	}
 
-	public Integer getDirection() {
+	public int getDirection() {
 		return direction;
 	}
 
-	public void setDirection(Integer direction) {
+	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
@@ -234,43 +226,43 @@ public class AlarmData {
 		this.reserve = reserve;
 	}
 
-	public Integer getAriBagAlarm() {
+	public int getAriBagAlarm() {
 		return ariBagAlarm;
 	}
 
-	public void setAriBagAlarm(Integer ariBagAlarm) {
+	public void setAriBagAlarm(int ariBagAlarm) {
 		this.ariBagAlarm = ariBagAlarm;
 	}
 
-	public Integer getCrashAlarm() {
+	public int getCrashAlarm() {
 		return crashAlarm;
 	}
 
-	public void setCrashAlarm(Integer crashAlarm) {
+	public void setCrashAlarm(int crashAlarm) {
 		this.crashAlarm = crashAlarm;
 	}
 
-	public Integer getAntiTheftAlarm() {
+	public int getAntiTheftAlarm() {
 		return antiTheftAlarm;
 	}
 
-	public void setAntiTheftAlarm(Integer antiTheftAlarm) {
+	public void setAntiTheftAlarm(int antiTheftAlarm) {
 		this.antiTheftAlarm = antiTheftAlarm;
 	}
 
-	public Integer getLightNotClosedAlarm() {
+	public int getLightNotClosedAlarm() {
 		return lightNotClosedAlarm;
 	}
 
-	public void setLightNotClosedAlarm(Integer lightNotClosedAlarm) {
+	public void setLightNotClosedAlarm(int lightNotClosedAlarm) {
 		this.lightNotClosedAlarm = lightNotClosedAlarm;
 	}
 
-	public Integer getBatteryVoltageAlarm() {
+	public int getBatteryVoltageAlarm() {
 		return batteryVoltageAlarm;
 	}
 
-	public void setBatteryVoltageAlarm(Integer batteryVoltageAlarm) {
+	public void setBatteryVoltageAlarm(int batteryVoltageAlarm) {
 		this.batteryVoltageAlarm = batteryVoltageAlarm;
 	}
 
@@ -280,6 +272,14 @@ public class AlarmData {
 
 	public void setReserve1(long reserve1) {
 		this.reserve1 = reserve1;
+	}
+
+	public Tail getTail() {
+		return tail;
+	}
+
+	public void setTail(Tail tail) {
+		this.tail = tail;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer carStatus;
+	private int carStatus;
 	/**
 	 * <i>充电状态</i><br>
 	 * <ul>
@@ -38,7 +38,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer chargeStatus;
+	private int chargeStatus;
 
 	/**
 	 * <i>运行模式</i><br>
@@ -67,19 +67,19 @@ public class OverviewData {
 	 * 累计行驶里程(km)
 	 */
 	@Decimal(width = 32, order = ByteOrder.BigEndian, scale = 0.1)
-	private Double mileage;
+	private double mileage;
 
 	/**
 	 * 电压（V）
 	 */
 	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.1)
-	private Float voltage;
+	private float voltage;
 
 	/**
 	 * 电流（A）
 	 */
 	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.1)
-	private Float current;
+	private float current;
 
 	/**
 	 * SOC 有效值范围： 0～100（表示 0%～100%）<br>
@@ -88,7 +88,7 @@ public class OverviewData {
 	 * 0xFF 表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer soc;
+	private int soc;
 	/**
 	 * DC-DC 状态 0x01： 工作<br>
 	 * 0x02： 断开<br>
@@ -96,7 +96,7 @@ public class OverviewData {
 	 * 0xFF：表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer dcdcStatus;
+	private int dcdcStatus;
 	/**
 	 * <i>档位 bit0-bit3</i><br>
 	 * <ul>
@@ -113,7 +113,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer clutchStatus;
+	private int clutchStatus;
 
 	/**
 	 * 绝缘电阻<br>
@@ -121,7 +121,7 @@ public class OverviewData {
 	 * 0xFF,0xFF 表示无效<br>
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer issueValue;
+	private int issueValue;
 
 	/**
 	 * 燃油量<br>
@@ -130,42 +130,42 @@ public class OverviewData {
 	 * “0xFF”表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer fuelQuantity;
+	private int fuelQuantity;
 
 	/**
 	 * 累计平均油耗<br>
 	 * (0.01L/100km)/100F转Float
 	 */
 	@Decimal(width = 16, order = ByteOrder.BigEndian, scale = 0.01)
-	private Float avgOilUsed;
+	private float avgOilUsed;
 
 	/**
 	 * 左前轮胎压<br>
 	 * 有效值范围：0～250，最小计量单元：kpa，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer leftFrontTirePressure;
+	private int leftFrontTirePressure;
 
 	/**
 	 * 右前轮胎压<br>
 	 * 有效值范围：0～250，最小计量单元：kpa，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer rightFrontTirePressure;
+	private int rightFrontTirePressure;
 
 	/**
 	 * 左后轮胎压<br>
 	 * 有效值范围：0～250，最小计量单元：kpa，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer leftRearTirePressure;
+	private int leftRearTirePressure;
 
 	/**
 	 * 右后轮胎压<br>
 	 * 有效值范围：0～250，最小计量单元：kpa，“0xFE”表示异常，“0xFF”表示无效。
 	 */
 	@Number(width = 8)
-	private Integer rightRearTirePressure;
+	private int rightRearTirePressure;
 	/**
 	 * <i>左前门状态<i><br>
 	 * <ul>
@@ -175,7 +175,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer leftFrontDoorStatus;
+	private int leftFrontDoorStatus;
 
 	/**
 	 * 左后门状态
@@ -186,7 +186,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer leftBackDoorStatus;
+	private int leftBackDoorStatus;
 
 	/**
 	 * 右前门状态
@@ -197,7 +197,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer rightFrontDoorStatus;
+	private int rightFrontDoorStatus;
 
 	/**
 	 * 右后门状态
@@ -208,7 +208,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer rightBackDoorStatus;
+	private int rightBackDoorStatus;
 
 	/**
 	 * 前盖状态
@@ -219,7 +219,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer frontCover;
+	private int frontCover;
 
 	/**
 	 * 后备箱状态
@@ -230,7 +230,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer trunkStatus;
+	private int trunkStatus;
 
 	/**
 	 * 左前窗状态
@@ -241,7 +241,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer leftFrontWindowStatus;
+	private int leftFrontWindowStatus;
 
 	/**
 	 * 右前窗状态
@@ -252,7 +252,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer rightFrontWindowStatus;
+	private int rightFrontWindowStatus;
 
 	/**
 	 * 左后窗状态
@@ -263,7 +263,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer leftBackWindowStatus;
+	private int leftBackWindowStatus;
 
 	/**
 	 * 右后窗状态
@@ -274,7 +274,7 @@ public class OverviewData {
 	 * </ul>
 	 */
 	@Number(width = 8)
-	private Integer rightBackWindowStatus;
+	private int rightBackWindowStatus;
 
 	/**
 	 * 车外温度<br>
@@ -283,7 +283,7 @@ public class OverviewData {
 	 * “0xFE”表示异常，“0xFF”表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer OutsideTemperature;
+	private int OutsideTemperature;
 
 	/**
 	 * 车内温度<br>
@@ -292,7 +292,7 @@ public class OverviewData {
 	 * “0xFE”表示异常，“0xFF”表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer insideTemperature;
+	private int insideTemperature;
 
 	/**
 	 * 续航里程 有效值范围： 0～20000<br>
@@ -301,7 +301,7 @@ public class OverviewData {
 	 * 0xFF,0xFF 表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer rechargeMileage;
+	private int rechargeMileage;
 
 	/**
 	 * 车灯状态<br>
@@ -311,179 +311,27 @@ public class OverviewData {
 	 * “0xFF”表示无效<br>
 	 */
 	@Number(width = 8)
-	private Integer lightStatus;
+	private int lightStatus;
 
 	/**
 	 * 预留字段
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer reserve;
+	private int reserve;
 
-	public Integer getLightStatus() {
-		return lightStatus;
-	}
-
-	public void setLightStatus(Integer lightStatus) {
-		this.lightStatus = lightStatus;
-	}
-
-	public Integer getFrontCover() {
-		return frontCover;
-	}
-
-	public void setFrontCover(Integer frontCover) {
-		this.frontCover = frontCover;
-	}
-
-	public Integer getLeftFrontTirePressure() {
-		return leftFrontTirePressure;
-	}
-
-	public void setLeftFrontTirePressure(Integer leftFrontTirePressure) {
-		this.leftFrontTirePressure = leftFrontTirePressure;
-	}
-
-	public Integer getRightFrontTirePressure() {
-		return rightFrontTirePressure;
-	}
-
-	public void setRightFrontTirePressure(Integer rightFrontTirePressure) {
-		this.rightFrontTirePressure = rightFrontTirePressure;
-	}
-
-	public Integer getLeftRearTirePressure() {
-		return leftRearTirePressure;
-	}
-
-	public void setLeftRearTirePressure(Integer leftRearTirePressure) {
-		this.leftRearTirePressure = leftRearTirePressure;
-	}
-
-	public Integer getRightRearTirePressure() {
-		return rightRearTirePressure;
-	}
-
-	public void setRightRearTirePressure(Integer rightRearTirePressure) {
-		this.rightRearTirePressure = rightRearTirePressure;
-	}
-
-	public Integer getLeftFrontDoorStatus() {
-		return leftFrontDoorStatus;
-	}
-
-	public void setLeftFrontDoorStatus(Integer leftFrontDoorStatus) {
-		this.leftFrontDoorStatus = leftFrontDoorStatus;
-	}
-
-	public Integer getRightFrontDoorStatus() {
-		return rightFrontDoorStatus;
-	}
-
-	public void setRightFrontDoorStatus(Integer rightFrontDoorStatus) {
-		this.rightFrontDoorStatus = rightFrontDoorStatus;
-	}
-
-	public Integer getLeftBackDoorStatus() {
-		return leftBackDoorStatus;
-	}
-
-	public void setLeftBackDoorStatus(Integer leftBackDoorStatus) {
-		this.leftBackDoorStatus = leftBackDoorStatus;
-	}
-
-	public Integer getRightBackDoorStatus() {
-		return rightBackDoorStatus;
-	}
-
-	public void setRightBackDoorStatus(Integer rightBackDoorStatus) {
-		this.rightBackDoorStatus = rightBackDoorStatus;
-	}
-
-	public Integer getTrunkStatus() {
-		return trunkStatus;
-	}
-
-	public void setTrunkStatus(Integer trunkStatus) {
-		this.trunkStatus = trunkStatus;
-	}
-
-	public Integer getLeftFrontWindowStatus() {
-		return leftFrontWindowStatus;
-	}
-
-	public void setLeftFrontWindowStatus(Integer leftFrontWindowStatus) {
-		this.leftFrontWindowStatus = leftFrontWindowStatus;
-	}
-
-	public Integer getRightFrontWindowStatus() {
-		return rightFrontWindowStatus;
-	}
-
-	public void setRightFrontWindowStatus(Integer rightFrontWindowStatus) {
-		this.rightFrontWindowStatus = rightFrontWindowStatus;
-	}
-
-	public Integer getLeftBackWindowStatus() {
-		return leftBackWindowStatus;
-	}
-
-	public void setLeftBackWindowStatus(Integer leftBackWindowStatus) {
-		this.leftBackWindowStatus = leftBackWindowStatus;
-	}
-
-	public Integer getRightBackWindowStatus() {
-		return rightBackWindowStatus;
-	}
-
-	public void setRightBackWindowStatus(Integer rightBackWindowStatus) {
-		this.rightBackWindowStatus = rightBackWindowStatus;
-	}
-
-	public Integer getOutsideTemperature() {
-		return OutsideTemperature;
-	}
-
-	public void setOutsideTemperature(Integer outsideTemperature) {
-		OutsideTemperature = outsideTemperature;
-	}
-
-	public Integer getInsideTemperature() {
-		return insideTemperature;
-	}
-
-	public void setInsideTemperature(Integer insideTemperature) {
-		this.insideTemperature = insideTemperature;
-	}
-
-	public Integer getRechargeMileage() {
-		return rechargeMileage;
-	}
-
-	public void setRechargeMileage(Integer rechargeMileage) {
-		this.rechargeMileage = rechargeMileage;
-	}
-
-	public Integer getReserve() {
-		return reserve;
-	}
-
-	public void setReserve(Integer reserve) {
-		this.reserve = reserve;
-	}
-
-	public Integer getCarStatus() {
+	public int getCarStatus() {
 		return carStatus;
 	}
 
-	public void setCarStatus(Integer carStatus) {
+	public void setCarStatus(int carStatus) {
 		this.carStatus = carStatus;
 	}
 
-	public Integer getChargeStatus() {
+	public int getChargeStatus() {
 		return chargeStatus;
 	}
 
-	public void setChargeStatus(Integer chargeStatus) {
+	public void setChargeStatus(int chargeStatus) {
 		this.chargeStatus = chargeStatus;
 	}
 
@@ -503,76 +351,228 @@ public class OverviewData {
 		this.vehicleSpeed = vehicleSpeed;
 	}
 
-	public Double getMileage() {
+	public double getMileage() {
 		return mileage;
 	}
 
-	public void setMileage(Double mileage) {
+	public void setMileage(double mileage) {
 		this.mileage = mileage;
 	}
 
-	public Float getVoltage() {
+	public float getVoltage() {
 		return voltage;
 	}
 
-	public void setVoltage(Float voltage) {
+	public void setVoltage(float voltage) {
 		this.voltage = voltage;
 	}
 
-	public Float getCurrent() {
+	public float getCurrent() {
 		return current;
 	}
 
-	public void setCurrent(Float current) {
+	public void setCurrent(float current) {
 		this.current = current;
 	}
 
-	public Integer getSoc() {
+	public int getSoc() {
 		return soc;
 	}
 
-	public void setSoc(Integer soc) {
+	public void setSoc(int soc) {
 		this.soc = soc;
 	}
 
-	public Integer getDcdcStatus() {
+	public int getDcdcStatus() {
 		return dcdcStatus;
 	}
 
-	public void setDcdcStatus(Integer dcdcStatus) {
+	public void setDcdcStatus(int dcdcStatus) {
 		this.dcdcStatus = dcdcStatus;
 	}
 
-	public Integer getClutchStatus() {
+	public int getClutchStatus() {
 		return clutchStatus;
 	}
 
-	public void setClutchStatus(Integer clutchStatus) {
+	public void setClutchStatus(int clutchStatus) {
 		this.clutchStatus = clutchStatus;
 	}
 
-	public Integer getIssueValue() {
+	public int getIssueValue() {
 		return issueValue;
 	}
 
-	public void setIssueValue(Integer issueValue) {
+	public void setIssueValue(int issueValue) {
 		this.issueValue = issueValue;
 	}
 
-	public Integer getFuelQuantity() {
+	public int getFuelQuantity() {
 		return fuelQuantity;
 	}
 
-	public void setFuelQuantity(Integer fuelQuantity) {
+	public void setFuelQuantity(int fuelQuantity) {
 		this.fuelQuantity = fuelQuantity;
 	}
 
-	public Float getAvgOilUsed() {
+	public float getAvgOilUsed() {
 		return avgOilUsed;
 	}
 
-	public void setAvgOilUsed(Float avgOilUsed) {
+	public void setAvgOilUsed(float avgOilUsed) {
 		this.avgOilUsed = avgOilUsed;
+	}
+
+	public int getLeftFrontTirePressure() {
+		return leftFrontTirePressure;
+	}
+
+	public void setLeftFrontTirePressure(int leftFrontTirePressure) {
+		this.leftFrontTirePressure = leftFrontTirePressure;
+	}
+
+	public int getRightFrontTirePressure() {
+		return rightFrontTirePressure;
+	}
+
+	public void setRightFrontTirePressure(int rightFrontTirePressure) {
+		this.rightFrontTirePressure = rightFrontTirePressure;
+	}
+
+	public int getLeftRearTirePressure() {
+		return leftRearTirePressure;
+	}
+
+	public void setLeftRearTirePressure(int leftRearTirePressure) {
+		this.leftRearTirePressure = leftRearTirePressure;
+	}
+
+	public int getRightRearTirePressure() {
+		return rightRearTirePressure;
+	}
+
+	public void setRightRearTirePressure(int rightRearTirePressure) {
+		this.rightRearTirePressure = rightRearTirePressure;
+	}
+
+	public int getLeftFrontDoorStatus() {
+		return leftFrontDoorStatus;
+	}
+
+	public void setLeftFrontDoorStatus(int leftFrontDoorStatus) {
+		this.leftFrontDoorStatus = leftFrontDoorStatus;
+	}
+
+	public int getLeftBackDoorStatus() {
+		return leftBackDoorStatus;
+	}
+
+	public void setLeftBackDoorStatus(int leftBackDoorStatus) {
+		this.leftBackDoorStatus = leftBackDoorStatus;
+	}
+
+	public int getRightFrontDoorStatus() {
+		return rightFrontDoorStatus;
+	}
+
+	public void setRightFrontDoorStatus(int rightFrontDoorStatus) {
+		this.rightFrontDoorStatus = rightFrontDoorStatus;
+	}
+
+	public int getRightBackDoorStatus() {
+		return rightBackDoorStatus;
+	}
+
+	public void setRightBackDoorStatus(int rightBackDoorStatus) {
+		this.rightBackDoorStatus = rightBackDoorStatus;
+	}
+
+	public int getFrontCover() {
+		return frontCover;
+	}
+
+	public void setFrontCover(int frontCover) {
+		this.frontCover = frontCover;
+	}
+
+	public int getTrunkStatus() {
+		return trunkStatus;
+	}
+
+	public void setTrunkStatus(int trunkStatus) {
+		this.trunkStatus = trunkStatus;
+	}
+
+	public int getLeftFrontWindowStatus() {
+		return leftFrontWindowStatus;
+	}
+
+	public void setLeftFrontWindowStatus(int leftFrontWindowStatus) {
+		this.leftFrontWindowStatus = leftFrontWindowStatus;
+	}
+
+	public int getRightFrontWindowStatus() {
+		return rightFrontWindowStatus;
+	}
+
+	public void setRightFrontWindowStatus(int rightFrontWindowStatus) {
+		this.rightFrontWindowStatus = rightFrontWindowStatus;
+	}
+
+	public int getLeftBackWindowStatus() {
+		return leftBackWindowStatus;
+	}
+
+	public void setLeftBackWindowStatus(int leftBackWindowStatus) {
+		this.leftBackWindowStatus = leftBackWindowStatus;
+	}
+
+	public int getRightBackWindowStatus() {
+		return rightBackWindowStatus;
+	}
+
+	public void setRightBackWindowStatus(int rightBackWindowStatus) {
+		this.rightBackWindowStatus = rightBackWindowStatus;
+	}
+
+	public int getOutsideTemperature() {
+		return OutsideTemperature;
+	}
+
+	public void setOutsideTemperature(int outsideTemperature) {
+		OutsideTemperature = outsideTemperature;
+	}
+
+	public int getInsideTemperature() {
+		return insideTemperature;
+	}
+
+	public void setInsideTemperature(int insideTemperature) {
+		this.insideTemperature = insideTemperature;
+	}
+
+	public int getRechargeMileage() {
+		return rechargeMileage;
+	}
+
+	public void setRechargeMileage(int rechargeMileage) {
+		this.rechargeMileage = rechargeMileage;
+	}
+
+	public int getLightStatus() {
+		return lightStatus;
+	}
+
+	public void setLightStatus(int lightStatus) {
+		this.lightStatus = lightStatus;
+	}
+
+	public int getReserve() {
+		return reserve;
+	}
+
+	public void setReserve(int reserve) {
+		this.reserve = reserve;
 	}
 
 	@Override

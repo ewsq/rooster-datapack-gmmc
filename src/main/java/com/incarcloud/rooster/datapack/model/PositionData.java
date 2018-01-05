@@ -18,22 +18,22 @@ public class PositionData {
 	 * 0:有效定位；1:无效定位（当数据通信正常，而不能获取定位信息时，发送最后一次有效定位信息，并将定位状态置为无效。）
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer isValidate = 0;
+	private int isValidate;
 	/**
 	 * 0:北纬；1:南纬
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer latType = 0;
+	private int latType;
 	/**
 	 * 0:东经；1:西经
 	 */
 	@Number(width = 1, order = ByteOrder.BigEndian)
-	private Integer lngType = 0;
+	private int lngType;
 	/**
 	 * 保留
 	 */
 	@Number(width = 5, order = ByteOrder.BigEndian)
-	private Integer reserveBit = 0;
+	private int reserveBit;
 	/**
 	 * 经度 以度为单位的纬度值乘以10的6次方，精确到百万分之一度
 	 */
@@ -59,7 +59,7 @@ public class PositionData {
 	 * 方向 有效值范围：0～359，正北为0，顺时针
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer direction;
+	private int direction;
 	/**
 	 * 保留位
 	 */
@@ -73,97 +73,84 @@ public class PositionData {
 				+ speed + ", altitude=" + altitude + ", direction=" + direction + ", reserve=" + reserve + "]";
 	}
 
-	
 	public Integer getIsValidate() {
 		return isValidate;
 	}
-
 
 	public void setIsValidate(Integer isValidate) {
 		this.isValidate = isValidate;
 	}
 
-
 	public Integer getLatType() {
 		return latType;
 	}
-
 
 	public void setLatType(Integer latType) {
 		this.latType = latType;
 	}
 
-
 	public Integer getLngType() {
 		return lngType;
 	}
-
 
 	public void setLngType(Integer lngType) {
 		this.lngType = lngType;
 	}
 
-
 	public Integer getReserveBit() {
 		return reserveBit;
 	}
-
 
 	public void setReserveBit(Integer reserveBit) {
 		this.reserveBit = reserveBit;
 	}
 
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(Float speed) {
+		this.speed = speed;
+	}
+
+	public Double getAltitude() {
+		return altitude;
+	}
+
+	public void setAltitude(Double altitude) {
+		this.altitude = altitude;
+	}
+
+	public Integer getDirection() {
+		return direction;
+	}
 
 	public void setDirection(Integer direction) {
 		this.direction = direction;
 	}
 
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
-
-	public double getAltitude() {
-		return altitude;
-	}
-
-	public void setAltitude(double altitude) {
-		this.altitude = altitude;
-	}
-
-	public int getDirection() {
-		return direction;
-	}
-
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
-
-	public long getReserve() {
+	public Long getReserve() {
 		return reserve;
 	}
 
-	public void setReserve(long reserve) {
+	public void setReserve(Long reserve) {
 		this.reserve = reserve;
 	}
+
 }

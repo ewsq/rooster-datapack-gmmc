@@ -34,7 +34,7 @@ public class LoginData {
 	 * 车载终端每登入一次，登入流水号自动加1，从1开始循环累加，最大值为65531，循环周期为天。
 	 */
 	@Number(width = 16, order = ByteOrder.BigEndian)
-	private Integer serialNumber;
+	private int serialNumber;
 	/**
 	 * 加密秘钥<br>
 	 * <p>
@@ -58,14 +58,14 @@ public class LoginData {
 	 * 预留，可充电储能子系统数n，有效值范围：0~250
 	 */
 	@Number(width = 8)
-	private Integer electricalCount;
+	private int electricalCount;
 	/**
 	 * 可充电储能系统编码长度<br>
 	 * <p>
 	 * 预留，可充电储能系统编码长度m，有效范围：0~50，“0”表示不上传该编码
 	 */
 	@Number(width = 8)
-	private Integer electricalLenth;
+	private int electricalLenth;
 	/**
 	 * 可充电储能系统编码<br>
 	 * <p>
@@ -85,7 +85,7 @@ public class LoginData {
 	 * 
 	 * @return
 	 */
-	public Integer getLength() {
+	public int getLength() {
 		return electricalCount * electricalLenth;
 	}
 
@@ -105,11 +105,11 @@ public class LoginData {
 		this.gatherTime = gatherTime;
 	}
 
-	public Integer getSerialNumber() {
+	public int getSerialNumber() {
 		return serialNumber;
 	}
 
-	public void setSerialNumber(Integer serialNumber) {
+	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 
@@ -137,19 +137,19 @@ public class LoginData {
 		this.vin = vin;
 	}
 
-	public Integer getElectricalCount() {
+	public int getElectricalCount() {
 		return electricalCount;
 	}
 
-	public void setElectricalCount(Integer electricalCount) {
+	public void setElectricalCount(int electricalCount) {
 		this.electricalCount = electricalCount;
 	}
 
-	public Integer getElectricalLenth() {
+	public int getElectricalLenth() {
 		return electricalLenth;
 	}
 
-	public void setElectricalLenth(Integer electricalLenth) {
+	public void setElectricalLenth(int electricalLenth) {
 		this.electricalLenth = electricalLenth;
 	}
 

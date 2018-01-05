@@ -57,7 +57,7 @@ public class ActivationStrategy implements IDataPackStrategy {
 		// 添加返回结果集
 		DataPackActivation dataPackActivation = new DataPackActivation(dataPackObject);
 		// 公钥
-		dataPackActivation.setPublicKey(Base64.getEncoder().encodeToString(activationData.getPublicKey()));
+		dataPackActivation.setPublicKey(GmmcDataPackUtils.getBase64OfInt(activationData.getPublicKey()));
 		// 公钥长度
 		dataPackActivation.setLength(activationData.getPublicKeyLength());
 		// 类型

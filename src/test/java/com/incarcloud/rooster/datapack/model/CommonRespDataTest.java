@@ -36,17 +36,16 @@ public class CommonRespDataTest {
 	}
 
 	@Test
-	@Ignore
 	public void test() throws Exception {
 		ProtocolEngine engin = new ProtocolEngine();
-		String resp = "2323020101013836323233343032313034323437300000061201020A163403";
+		String resp = "2323020102fe3836323233343032313034323437300000061201040b0e06d2";
 		CommonRespData data = engin.decode(HexStringUtil.parseBytes(resp), CommonRespData.class);
 
 		Date date = new Date(data.getGatherTime());
 		Instant instant = date.toInstant();
 		ZoneId zoneId = ZoneId.systemDefault();
 		LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
-
+		System.out.println(data);
 		System.out.println(localDateTime);
 	}
 

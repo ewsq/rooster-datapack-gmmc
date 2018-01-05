@@ -60,7 +60,8 @@ public class RunDataStrategy implements IDataPackStrategy {
 		/**
 		 * 解析运行数据
 		 */
-		int[] dataBuffer = runData.getBodyBuffer();// 数据单元
+		int[] dataBufferOfInt = runData.getBodyBuffer();// 数据单元
+		byte[] dataBuffer = GmmcDataPackUtils.coverToByteArray(dataBufferOfInt);
 
 		if (dataBuffer != null && dataBuffer.length > 0) {
 			int index = 0;// 数据单元长度计数
@@ -99,7 +100,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 						dataPackOverview.setCurrent(overviewData.getCurrent());// 电流（A）
 						dataPackOverview.setSoc(overviewData.getSoc());// SOC
 						dataPackOverview.setDcdcStatus(overviewData.getDcdcStatus());// dcdc状态
-						
+
 						/**
 						 * 档位状态
 						 */

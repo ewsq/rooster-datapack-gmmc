@@ -276,6 +276,21 @@ public class GmmcDataPackUtils extends DataPackUtil {
 		return msg;
 	}
 
+	/**
+	 * int[]转换成byte[]
+	 * 
+	 * @param ints
+	 * @param length
+	 * @return
+	 */
+	public static byte[] coverToByteArray(int[] ints) {
+		byte[] bytes = new byte[ints.length];
+		for (int i = 0; i < ints.length; i++) {
+			bytes[i] = (byte) ints[i];
+		}
+		return bytes;
+	}
+
 	protected GmmcDataPackUtils() {
 		super();
 	}
