@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.github.io.protocol.annotation.AsciiString;
 import com.github.io.protocol.annotation.ByteOrder;
+import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
 
@@ -25,7 +26,7 @@ public class ActivationData {
 	/**
 	 * 数据采集时间
 	 */
-	@Number(width = 8)
+	@DateTime
 	private long gatherTime;
 	/**
 	 * 公钥长度<br>

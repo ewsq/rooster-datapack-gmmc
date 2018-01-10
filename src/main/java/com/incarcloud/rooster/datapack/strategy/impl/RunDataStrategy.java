@@ -158,7 +158,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 
 						// 位置数据
 						PositionData positionData = engine.decode(eleBuffer, PositionData.class);
-
+						System.out.println("===positionData==="+engine.toPrettyHexString(positionData));
 						// 返回结果集
 						DataPackPosition dataPackPosition = new DataPackPosition(dataPackObject);
 						// 定位方式

@@ -9,6 +9,8 @@ import java.util.Map;
 import com.github.io.protocol.core.ProtocolEngine;
 import com.incarcloud.rooster.datapack.model.CommonRespData;
 import com.incarcloud.rooster.datapack.model.Header;
+import com.incarcloud.rooster.datapack.model.OtaUpdateData;
+import com.incarcloud.rooster.datapack.model.OtaUpdateResp;
 import com.incarcloud.rooster.datapack.model.Tail;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.ActivationStrategy;
@@ -167,7 +169,7 @@ public class DataParserGmmc implements IDataParser {
 					byte[] headerBytes = GmmcDataPackUtils.getRange(dataPackBytes, 0, 24);
 					Header header = engine.decode(headerBytes, Header.class);// 包头
 					Tail tail = new Tail();// 包尾
-
+					byte[] responseBytes = {};
 					/**
 					 * 获取命令标识,根据命令标识返回对于的消息<br>
 					 * 0x11 电检 通用应答 <br>
@@ -185,27 +187,39 @@ public class DataParserGmmc implements IDataParser {
 					Integer cmdFlag = dataPackBytes[4] & 0xFF;
 
 					if (0x11 == cmdFlag || 0x12 == cmdFlag || 0x13 == cmdFlag || 0x01 == cmdFlag || 0x05 == cmdFlag
-							|| 0x08 == cmdFlag || 0x09 == cmdFlag || 0x22 == cmdFlag) {
-						/**
-						 * 通用应答，设置应答标识 0x01 成功
-						 */
+							|| 0x08 == cmdFlag || 0x09 == cmdFlag || 0x22 == cmdFlag || 0x24 == cmdFlag) {
+
+						// 设置应答标识 0x01 成功
 						header.setResponeFlag(0x01);
+						// 通用应答
+						CommonRespData resp = new CommonRespData();
+
+						resp.setHeader(header);// 消息头
+						resp.setGatherTime(System.currentTimeMillis());// 设置应答时间
+						resp.setTail(tail);// 包尾
+
+						responseBytes = engine.encode(resp);// 生成应答包byte数组
+						GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
 					} else if (0x21 == cmdFlag) { // TODO: 参数设置命令 返回参数设置列表
 
 					} else if (0x23 == cmdFlag) { // TODO: ota升级 返回ota升级信息
+						OtaUpdateData ota = engine.decode(dataPackBytes, OtaUpdateData.class);
+						// TODO 软件版本校验，校验当前tbox是否需要升级
+						// 设置应答标识 0x01 成功
+						header.setResponeFlag(0x01);
+						OtaUpdateResp resp = new OtaUpdateResp();
+						resp.setHeader(header);
+						resp.setFlag(0);// 是否需要更新0 不需要 1 需要
+						resp.setSoftwareVersion(ota.getSoftwareVersion());// 软件版本
+						resp.setUpdatePackageName("test");
+						resp.setUrl("http://www.incarcloud.com/");
+						resp.setTail(tail);
+						
+						responseBytes = engine.encode(resp);// 生成应答包byte数组
+						GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
 					}
-					// 通用应答
-					CommonRespData resp = new CommonRespData();
-
-					resp.setHeader(header);// 消息头
-					resp.setGatherTime(System.currentTimeMillis());// 设置应答时间
-					resp.setTail(tail);// 包尾
-
-					byte[] responseBytes = engine.encode(resp);// 生成应答包byte数组
-					GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
 					// 返回应答消息
 					return Unpooled.wrappedBuffer(responseBytes);
-
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -306,6 +320,12 @@ public class DataParserGmmc implements IDataParser {
 					GmmcDataPackUtils.debug("=====车辆行程数据=====");
 					IDataPackStrategy tripDataStrategy = new TripDataStrategy();
 					dataPackTargetList = tripDataStrategy.decode(dataPack);
+					break;
+				case 0x23:// ota升级
+
+					break;
+				case 0x24:// ota升级完成
+
 					break;
 			}
 		}

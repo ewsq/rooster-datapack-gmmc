@@ -33,7 +33,7 @@ public class ElectricalCheckStrategy implements IDataPackStrategy {
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
 		byte[] dataBytes = Base64.getDecoder().decode(dataPack.getDataB64());
-		// 车辆告警信息
+		// 车辆电检信息
 		ElectricalCheckData electricalCheckData = null;
 		try {
 			electricalCheckData = engine.decode(dataBytes, ElectricalCheckData.class);

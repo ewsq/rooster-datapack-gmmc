@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.annotation.ByteOrder;
+import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Decimal;
 import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
@@ -23,7 +24,7 @@ public class AlarmData {
 	/**
 	 * 数据采集时间
 	 */
-	@Number(width = 8)
+	@DateTime
 	private long gatherTime;
 
 	/**
@@ -80,7 +81,7 @@ public class AlarmData {
 	/**
 	 * 保留位
 	 */
-	@Number(width = 32, order = ByteOrder.BigEndian)
+	@Number(width = 16, order = ByteOrder.BigEndian)
 	private long reserve;
 
 	/**
