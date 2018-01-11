@@ -13,7 +13,6 @@ import com.incarcloud.rooster.datapack.DataPackTarget;
 import com.incarcloud.rooster.datapack.model.ActivationData;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
-import com.incarcloud.rooster.datapack.utils.RSAEncrypt;
 
 /**
  * @Title: ActivationStrategy.java
@@ -26,15 +25,8 @@ import com.incarcloud.rooster.datapack.utils.RSAEncrypt;
  */
 public class ActivationStrategy implements IDataPackStrategy {
 
-	/**
-	 * 
-	 * @param dataPack
-	 *            报文
-	 * @param key
-	 *            uuid 使用uuid的MD5作为AES128解密密钥
-	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack, String key) {
+	public List<DataPackTarget> decode(DataPack dataPack) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
@@ -64,10 +56,8 @@ public class ActivationStrategy implements IDataPackStrategy {
 
 		// 添加返回结果集
 		DataPackActivation dataPackActivation = new DataPackActivation(dataPackObject);
-		// 公钥 用uuid的MD5（32位大写）作为AES128解密秘钥
-		byte[] publicKeyDecBytes = RSAEncrypt.AESDecode(key.getBytes(),
-				GmmcDataPackUtils.coverToByteArray(activationData.getPublicKey()));
-		dataPackActivation.setPublicKey(Base64.getEncoder().encodeToString(publicKeyDecBytes));
+		// 公钥
+		dataPackActivation.setPublicKey(GmmcDataPackUtils.getBase64OfInt(activationData.getPublicKey()));
 		// 公钥长度
 		dataPackActivation.setLength(activationData.getPublicKeyLength());
 		// 类型
@@ -79,7 +69,7 @@ public class ActivationStrategy implements IDataPackStrategy {
 	}
 
 	@Override
-	public byte[] encode(DataPack dataPack, String key) {
+	public byte[] encode(DataPack dataPack) {
 		return null;
 	}
 

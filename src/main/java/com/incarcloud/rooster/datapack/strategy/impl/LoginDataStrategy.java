@@ -32,14 +32,11 @@ public class LoginDataStrategy implements IDataPackStrategy {
 	 *            报文数据
 	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack, String key) {
+	public List<DataPackTarget> decode(DataPack dataPack) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
 		byte[] dataBytes = Base64.getDecoder().decode(dataPack.getDataB64());
-
-		// 对报文体做AES128解密
-
 		LoginData loginData = null;
 		try {
 			loginData = engine.decode(dataBytes, LoginData.class);
@@ -87,7 +84,7 @@ public class LoginDataStrategy implements IDataPackStrategy {
 	 * @return
 	 */
 	@Override
-	public byte[] encode(DataPack dataPack, String key) {
+	public byte[] encode(DataPack dataPack) {
 		return null;
 	}
 

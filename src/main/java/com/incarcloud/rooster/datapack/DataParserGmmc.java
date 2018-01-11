@@ -47,14 +47,11 @@ public class DataParserGmmc implements IDataParser {
 	 */
 	public static final String PROTOCOL_GROUP = "china";
 	public static final String PROTOCOL_NAME = "gmmc";
-	public static final String PROTOCOL_VERSION = "1.1";
+	public static final String PROTOCOL_VERSION = "2017.11";
 	public static final String PROTOCOL_PREFIX = PROTOCOL_GROUP + "-" + PROTOCOL_NAME + "-";
 
 	// 国标协议最小长度
 	private static final int GB_LENGTH = 25;
-
-	// 公钥
-	private String publicKey;
 
 	static {
 		/**
@@ -217,7 +214,7 @@ public class DataParserGmmc implements IDataParser {
 						resp.setUpdatePackageName("test");
 						resp.setUrl("http://www.incarcloud.com/");
 						resp.setTail(tail);
-
+						
 						responseBytes = engine.encode(resp);// 生成应答包byte数组
 						GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
 					}
@@ -261,69 +258,68 @@ public class DataParserGmmc implements IDataParser {
 					GmmcDataPackUtils.debug("=====车辆登入=====");
 					// 解析登录信息
 					IDataPackStrategy loginDataStrategy = new LoginDataStrategy();
-					dataPackTargetList = loginDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = loginDataStrategy.decode(dataPack);
 					break;
 
 				case 0x02:// 车辆运行信息上报
 					GmmcDataPackUtils.debug("=====车辆运行信息上报=====");
 					// 解析车辆运行信息上报
 					IDataPackStrategy runDataStrategy = new RunDataStrategy();
-					dataPackTargetList = runDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = runDataStrategy.decode(dataPack);
 					break;
 
 				case 0x03:// 心跳
 					GmmcDataPackUtils.debug("=====心跳=====");
 					// 解析登录信息
 					IDataPackStrategy heartbeatStrategy = new HeartbeatStrategy();
-					dataPackTargetList = heartbeatStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = heartbeatStrategy.decode(dataPack);
 					break;
 
 				case 0x04:// 补发信息上报
 					GmmcDataPackUtils.debug("=====补发信息上报=====");
 					// 解析补发信息
 					IDataPackStrategy reissueDataStrategy = new RunDataStrategy();
-					dataPackTargetList = reissueDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = reissueDataStrategy.decode(dataPack);
 					break;
 
 				case 0x05:// 车辆登出
 					GmmcDataPackUtils.debug("=====车辆登出=====");
 					// 解析登录信息
 					IDataPackStrategy logoutDataStrategy = new LogoutDataStrategy();
-					dataPackTargetList = logoutDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = logoutDataStrategy.decode(dataPack);
 					break;
 
 				case 0x09:// 车辆告警信息上报
 					GmmcDataPackUtils.debug("=====车辆告警信息上报=====");
 					// 解析登录信息
 					IDataPackStrategy alarmDataStrategy = new AlarmDataStrategy();
-					dataPackTargetList = alarmDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = alarmDataStrategy.decode(dataPack);
 					break;
 
 				case 0x11:// 电检
 					GmmcDataPackUtils.debug("=====电检=====");
 					// 解析电检信息
 					IDataPackStrategy electricalCheckStrategy = new ElectricalCheckStrategy();
-					dataPackTargetList = electricalCheckStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = electricalCheckStrategy.decode(dataPack);
 					break;
 
 				case 0x12:// 激活
-					GmmcDataPackUtils.debug("=====设备激活=====");
 					// 解析设备激活信息
 					IDataPackStrategy activationStrategy = new ActivationStrategy();
-					activationStrategy.decode(dataPack, getPublicKey());
+					activationStrategy.decode(dataPack);
 					break;
 
 				case 0x13:// PublicKey重置
 					GmmcDataPackUtils.debug("=====PublicKey重置=====");
 					// 解析PublicKey重置信息
 					IDataPackStrategy publicKeyStrategy = new PublicKeyResetStrategy();
-					publicKeyStrategy.decode(dataPack, getPublicKey());
+					publicKeyStrategy.decode(dataPack);
 					break;
 
 				case 0x0B:// 车辆行程数据
 					GmmcDataPackUtils.debug("=====车辆行程数据=====");
 					IDataPackStrategy tripDataStrategy = new TripDataStrategy();
-					dataPackTargetList = tripDataStrategy.decode(dataPack, getPublicKey());
+					dataPackTargetList = tripDataStrategy.decode(dataPack);
 					break;
 				case 0x23:// ota升级
 
@@ -368,24 +364,5 @@ public class DataParserGmmc implements IDataParser {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * 设置公钥
-	 * 
-	 * @param publicKey
-	 *            公钥
-	 */
-	@Override
-	public void setPublicKey(String publicKey) {
-		this.publicKey = publicKey;
-	}
-
-	/**
-	 * 获取公钥
-	 */
-	@Override
-	public String getPublicKey() {
-		return publicKey;
 	}
 }

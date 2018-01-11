@@ -31,7 +31,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 	 * 报文解析
 	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack, String key) {
+	public List<DataPackTarget> decode(DataPack dataPack) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
@@ -158,7 +158,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 
 						// 位置数据
 						PositionData positionData = engine.decode(eleBuffer, PositionData.class);
-						System.out.println("===positionData===" + engine.toPrettyHexString(positionData));
+						System.out.println("===positionData==="+engine.toPrettyHexString(positionData));
 						// 返回结果集
 						DataPackPosition dataPackPosition = new DataPackPosition(dataPackObject);
 						// 定位方式
@@ -221,7 +221,7 @@ public class RunDataStrategy implements IDataPackStrategy {
 	 * 报文封包
 	 */
 	@Override
-	public byte[] encode(DataPack dataPack, String key) {
+	public byte[] encode(DataPack dataPack) {
 		return null;
 	}
 }
