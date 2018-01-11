@@ -29,7 +29,7 @@ public class LogoutDataStrategy implements IDataPackStrategy {
 	 * 解析登出报文信息
 	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack) {
+	public List<DataPackTarget> decode(DataPack dataPack, String key) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
@@ -65,7 +65,7 @@ public class LogoutDataStrategy implements IDataPackStrategy {
 	}
 
 	@Override
-	public byte[] encode(DataPack dataPack) {
+	public byte[] encode(DataPack dataPack, String key) {
 		return null;
 	}
 

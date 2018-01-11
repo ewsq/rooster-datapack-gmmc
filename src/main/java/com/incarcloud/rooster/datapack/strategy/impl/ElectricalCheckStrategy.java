@@ -28,7 +28,7 @@ public class ElectricalCheckStrategy implements IDataPackStrategy {
 	 * 报文解析
 	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack) {
+	public List<DataPackTarget> decode(DataPack dataPack, String key) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
@@ -65,7 +65,7 @@ public class ElectricalCheckStrategy implements IDataPackStrategy {
 	 * 报文封包
 	 */
 	@Override
-	public byte[] encode(DataPack dataPack) {
+	public byte[] encode(DataPack dataPack, String key) {
 		return null;
 	}
 

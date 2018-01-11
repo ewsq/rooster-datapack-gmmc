@@ -58,7 +58,7 @@ public class AlarmDataStrategy implements IDataPackStrategy {
 	 * @return
 	 */
 	@Override
-	public List<DataPackTarget> decode(DataPack dataPack) {
+	public List<DataPackTarget> decode(DataPack dataPack,String key) {
 		// 解析器
 		ProtocolEngine engine = new ProtocolEngine();
 		// 获取解析数据byte数组
@@ -123,7 +123,7 @@ public class AlarmDataStrategy implements IDataPackStrategy {
 	 * @return
 	 */
 	@Override
-	public byte[] encode(DataPack dataPack) {
+	public byte[] encode(DataPack dataPack,String key) {
 		return null;
 	}
 
