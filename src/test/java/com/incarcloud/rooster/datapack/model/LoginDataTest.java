@@ -3,6 +3,7 @@ package com.incarcloud.rooster.datapack.model;
 import java.util.Base64;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -44,6 +45,7 @@ public class LoginDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 
 		byte[] bytes = HexStringUtil.parseBytes("2323020101fe3836323233343032313034323437300000b0100b1c000f0d0001"
@@ -68,6 +70,7 @@ public class LoginDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void testLoginData() throws Exception {
 		LoginData data = engine.decode(HexStringUtil.parseBytes(loginData), LoginData.class);
 		System.out.println(data);

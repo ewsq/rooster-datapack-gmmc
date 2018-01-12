@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -17,6 +18,7 @@ import com.github.io.protocol.utils.HexStringUtil;
 public class LogoutDataTest {
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		String out = "2323020105fe383632323334303231303432343730000008120109101e010001d8";
 		ProtocolEngine engin = new ProtocolEngine();

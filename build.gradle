@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile("com.incarcloud:rooster-shared-all:2.1.8-SNAPSHOT")
+    compile("com.incarcloud:rooster-shared-all:2.1.12.6-SNAPSHOT")
     compile("org.slf4j:slf4j-api:1.7.+")
     compile group: 'com.github.ioprotocol', name: 'com-github-ioprotocol', version: '1.2.0'
     testCompile("junit:junit:4.+")
