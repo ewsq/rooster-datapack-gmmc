@@ -355,7 +355,7 @@ public class DataParserGmmc implements IDataParser {
 				metaDataMap.put("protocol", PROTOCOL_PREFIX + PROTOCOL_VERSION);
 				// 获取TBOX硬件的IMEI号码，由 15位字码构成，字码应符合GB16735 中 4.5 的规定
 				String imei = new String(GmmcDataPackUtils.getRange(dataPackBytes, 6, 21));
-				metaDataMap.put("imei", imei);
+				metaDataMap.put("deviceId", imei);
 				// 判断是否是登入报文,只有登入报文才有vin码，其他报文只有imei
 				if (1 == cmdFlag) {
 					/**

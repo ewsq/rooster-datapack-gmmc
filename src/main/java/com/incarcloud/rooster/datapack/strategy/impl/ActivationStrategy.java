@@ -13,7 +13,6 @@ import com.incarcloud.rooster.datapack.DataPackTarget;
 import com.incarcloud.rooster.datapack.model.ActivationData;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
-import com.incarcloud.rooster.datapack.utils.RSAEncrypt;
 
 /**
  * @Title: ActivationStrategy.java
@@ -65,9 +64,10 @@ public class ActivationStrategy implements IDataPackStrategy {
 		// 添加返回结果集
 		DataPackActivation dataPackActivation = new DataPackActivation(dataPackObject);
 		// 公钥 用uuid的MD5（32位大写）作为AES128解密秘钥
-		byte[] publicKeyDecBytes = RSAEncrypt.AESDecode(key.getBytes(),
-				GmmcDataPackUtils.coverToByteArray(activationData.getPublicKey()));
-		dataPackActivation.setPublicKey(Base64.getEncoder().encodeToString(publicKeyDecBytes));
+//		byte[] publicKeyDecBytes = RSAEncrypt.AESDecode(key.getBytes(),
+//				GmmcDataPackUtils.coverToByteArray(activationData.getPublicKey()));
+//		dataPackActivation.setPublicKey(Base64.getEncoder().encodeToString(publicKeyDecBytes));	
+		dataPackActivation.setPublicKey(Base64.getEncoder().encodeToString(GmmcDataPackUtils.coverToByteArray(activationData.getPublicKey())));
 		// 公钥长度
 		dataPackActivation.setLength(activationData.getPublicKeyLength());
 		// 类型

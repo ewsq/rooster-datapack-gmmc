@@ -38,7 +38,7 @@ public class LoginDataStrategy implements IDataPackStrategy {
 		// 获取解析数据byte数组
 		byte[] dataBytes = Base64.getDecoder().decode(dataPack.getDataB64());
 
-		// 对报文体做AES128解密
+		// TODO 对报文体做AES128解密
 
 		LoginData loginData = null;
 		try {
