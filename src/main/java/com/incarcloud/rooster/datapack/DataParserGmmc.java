@@ -214,7 +214,7 @@ public class DataParserGmmc implements IDataParser {
 						resp.setUpdatePackageName("test");
 						resp.setUrl("http://www.incarcloud.com/");
 						resp.setTail(tail);
-						
+
 						responseBytes = engine.encode(resp);// 生成应答包byte数组
 						GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
 					}
@@ -363,6 +363,16 @@ public class DataParserGmmc implements IDataParser {
 				return metaDataMap;
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public void setPublicKey(String publicKey) {
+
+	}
+
+	@Override
+	public String getPublicKey() {
 		return null;
 	}
 }
