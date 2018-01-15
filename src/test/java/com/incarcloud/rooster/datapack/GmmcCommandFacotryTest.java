@@ -16,4 +16,9 @@ public class GmmcCommandFacotryTest {
 	public void testPrint() {
 		System.out.println("hello");
 	}
+
+	@Test
+	public void testGreateCommand() {
+
+	}
 }
