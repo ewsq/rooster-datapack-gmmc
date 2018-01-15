@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
@@ -452,7 +453,8 @@ public class GmmcCommandFacotry implements CommandFactory {
 		// 添加包体长度和校验码
 		responseBytes = GmmcDataPackUtils.addCheck(responseBytes);
 		// 打印调试信息
-		GmmcDataPackUtils.debug(ByteBufUtil.hexDump(responseBytes));
+		//GmmcDataPackUtils.debug(ByteBufUtil.hexDump(responseBytes));
+		GmmcDataPackUtils.debug(Base64.getEncoder().encodeToString(responseBytes));
 
 		// return
 		return Unpooled.wrappedBuffer(responseBytes);
@@ -462,6 +464,6 @@ public class GmmcCommandFacotry implements CommandFactory {
 	public static void main(String[] args) throws Exception {
 		GmmcCommandFacotry cmd = new GmmcCommandFacotry();
       // cmd.createCommand(CommandType.CLOSE_DOOR, 0x01);
-      cmd.createCommand(CommandType.COND_COLD_CLOSE, "600810915F21028", 1000, 28);
+      cmd.createCommand(CommandType.COND_COLD_CLOSE, "862234021042470", 1000, 28);
 	}
 }
