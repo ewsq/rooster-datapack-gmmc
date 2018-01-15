@@ -457,4 +457,10 @@ public class GmmcCommandFacotry implements CommandFactory {
 		// return
 		return Unpooled.wrappedBuffer(responseBytes);
 	}
+
+	public static void main(String[] args) throws Exception {
+		GmmcCommandFacotry cmd = new GmmcCommandFacotry();
+		// cmd.createCommand(CommandType.CLOSE_DOOR, 0x01);
+		cmd.createCommand(CommandType.COND_COLD_CLOSE, "862234021042470", 1000, 28);
+	}
 }
