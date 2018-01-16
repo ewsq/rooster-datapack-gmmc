@@ -3,6 +3,7 @@ package com.incarcloud.rooster.datapack.model;
 import com.github.io.protocol.annotation.AsciiString;
 import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
+import com.github.io.protocol.annotation.Number;
 
 /**
  * @Title: OtaUpdateData.java
@@ -22,14 +23,54 @@ public class OtaUpdateData {
 	 */
 	@DateTime
 	private long gatherTime;
+
 	/**
-	 * tbox当前软件版本
+	 * 软件版本长度
 	 */
-	@AsciiString(length = "10")
+	@Number(width = 16)
+	private int softwareVersionLength;
+	/**
+	 * 当前软件版本
+	 */
+	@AsciiString(length = "getLength1")
 	private String softwareVersion;
+
+	/**
+	 * 文件名长度
+	 */
+	@Number(width = 16)
+	private int updatePackageNameLength;
+	/**
+	 * 升级包文件名
+	 */
+	@AsciiString(length = "getLength2")
+	private String updatePackageName;
+
+	/**
+	 * URL长度
+	 */
+	@Number(width = 16)
+	private int urlLength;
+	/**
+	 * 下载链接URL
+	 */
+	@AsciiString(length = "getLength3")
+	private String url;
 
 	@Element
 	private Tail tail;
+
+	public int getLength1() {
+		return getSoftwareVersionLength();
+	}
+
+	public int getLength2() {
+		return getUpdatePackageNameLength();
+	}
+
+	public int getLength3() {
+		return urlLength;
+	}
 
 	public String getSoftwareVersion() {
 		return softwareVersion;
@@ -63,10 +104,52 @@ public class OtaUpdateData {
 		this.tail = tail;
 	}
 
+	public String getUpdatePackageName() {
+		return updatePackageName;
+	}
+
+	public void setUpdatePackageName(String updatePackageName) {
+		this.updatePackageName = updatePackageName;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public int getSoftwareVersionLength() {
+		return softwareVersionLength;
+	}
+
+	public void setSoftwareVersionLength(int softwareVersionLength) {
+		this.softwareVersionLength = softwareVersionLength;
+	}
+
+	public int getUpdatePackageNameLength() {
+		return updatePackageNameLength;
+	}
+
+	public void setUpdatePackageNameLength(int updatePackageNameLength) {
+		this.updatePackageNameLength = updatePackageNameLength;
+	}
+
+	public int getUrlLength() {
+		return urlLength;
+	}
+
+	public void setUrlLength(int urlLength) {
+		this.urlLength = urlLength;
+	}
+
 	@Override
 	public String toString() {
-		return "OtaUpdateData [header=" + header + ", gatherTime=" + gatherTime + ", softwareVersion=" + softwareVersion
-				+ ", tail=" + tail + "]";
+		return "OtaUpdateData [header=" + header + ", gatherTime=" + gatherTime + ", softwareVersionLength="
+				+ softwareVersionLength + ", softwareVersion=" + softwareVersion + ", updatePackageNameLength="
+				+ updatePackageNameLength + ", updatePackageName=" + updatePackageName + ", urlLength=" + urlLength
+				+ ", url=" + url + ", tail=" + tail + "]";
 	}
 
 }

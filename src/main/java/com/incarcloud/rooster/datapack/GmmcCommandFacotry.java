@@ -3,6 +3,11 @@ package com.incarcloud.rooster.datapack;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.model.Header;
+import com.incarcloud.rooster.datapack.model.OtaUpdateData;
+import com.incarcloud.rooster.datapack.model.Tail;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandFacotryManager;
 import com.incarcloud.rooster.gather.cmd.CommandFactory;
@@ -29,7 +34,8 @@ public class GmmcCommandFacotry implements CommandFactory {
 
 	@Override
 	public ByteBuf createCommand(CommandType type, Object... args) throws Exception {
-
+		// 解析器
+		ProtocolEngine engie = new ProtocolEngine();
 		// 基本验证，必须有参数，第一个为终端手机号，即设备号
 		if (null == args && 0 < args.length) {
 			throw new IllegalArgumentException("args is null");
@@ -438,6 +444,54 @@ public class GmmcCommandFacotry implements CommandFactory {
 				for (int i = 0; i < queryTimeOfRun.length; i++) {
 					byteList.add(time[i]);
 				}
+
+				break;
+
+			/**
+			 * 传递四个参数<br>
+			 * 1> deviceId 设备号<br>
+			 * 2> softwareVersion 当前软件版本<br>
+			 * 3> updatePackageName 升级包文件名<br>
+			 * 4> url 下载链接URL<br>
+			 */
+			case OTA: // ota升级
+
+				if (args.length == 4) {
+					OtaUpdateData ota = new OtaUpdateData();
+					// 头部信息
+					Header header = new Header();
+					header.setCarFlag(0x01);// 车辆类型标识 0x01燃油车 ；0x02 新能源车
+					header.setCarType(0x01);// 车型 0x01 ZC；0xRE NS；0x03 NS
+					header.setCmdFlag(0x23);// 命令标识
+					header.setResponeFlag(0xFE);// 应答标识 命令包
+					header.setImei(deviceCode);// imei
+					header.setEncryptType(0x01);// 加密方式
+					header.setLength(0x00);// 数据单元长度
+
+					ota.setHeader(header);
+
+					String softwareVersion = (String) args[1];
+					String updatePackageName = (String) args[2];
+					String url = (String) args[3];
+
+					// 数据单元
+					ota.setGatherTime(System.currentTimeMillis()); // 发送时间
+					ota.setSoftwareVersionLength(softwareVersion.getBytes().length);// 软件版本长度
+					ota.setSoftwareVersion(softwareVersion);// 软件版本
+					ota.setUpdatePackageNameLength(updatePackageName.getBytes().length);// 包名长度
+					ota.setUpdatePackageName(updatePackageName);// 包名
+					ota.setUrlLength(url.getBytes().length);// url长度
+					ota.setUrl(url);// url
+					ota.setTail(new Tail());// 包尾
+
+					byte[] bytes = engie.encode(ota);
+					bytes = GmmcDataPackUtils.addCheck(bytes);
+					System.out.println(HexStringUtil.toHexString(bytes));
+				}
+
+				break;
+
+			case SET_PARAMS: // 参数设置
 
 				break;
 		}
