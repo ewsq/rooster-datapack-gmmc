@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.model.CommonRespData;
 import com.incarcloud.rooster.datapack.model.DownlinkControlAirData;
 import com.incarcloud.rooster.datapack.model.DownlinkControlAirMoreData;
@@ -473,7 +474,7 @@ public class GmmcCommandFacotry implements CommandFactory {
 		// 添加包体长度和校验码
 		responseBytes = GmmcDataPackUtils.addCheck(responseBytes);
 		// 打印调试信息
-		GmmcDataPackUtils.debug(ByteBufUtil.hexDump(responseBytes));
+		GmmcDataPackUtils.debug(HexStringUtil.toHexString(responseBytes));
 		// return
 		return Unpooled.wrappedBuffer(responseBytes);
 	}
