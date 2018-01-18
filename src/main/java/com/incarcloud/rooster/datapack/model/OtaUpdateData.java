@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.annotation.AsciiString;
+import com.github.io.protocol.annotation.ByteOrder;
 import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
@@ -27,7 +28,7 @@ public class OtaUpdateData {
 	/**
 	 * 软件版本长度
 	 */
-	@Number(width = 16)
+	@Number(width = 16, order = ByteOrder.BigEndian)
 	private int softwareVersionLength;
 	/**
 	 * 当前软件版本
@@ -38,7 +39,7 @@ public class OtaUpdateData {
 	/**
 	 * 文件名长度
 	 */
-	@Number(width = 16)
+	@Number(width = 16, order = ByteOrder.BigEndian)
 	private int updatePackageNameLength;
 	/**
 	 * 升级包文件名
@@ -49,7 +50,7 @@ public class OtaUpdateData {
 	/**
 	 * URL长度
 	 */
-	@Number(width = 16)
+	@Number(width = 16, order = ByteOrder.BigEndian)
 	private int urlLength;
 	/**
 	 * 下载链接URL
