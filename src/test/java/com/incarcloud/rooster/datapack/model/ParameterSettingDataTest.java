@@ -1,7 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
-import static org.junit.Assert.*;
-
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -10,6 +9,7 @@ import com.github.io.protocol.utils.HexStringUtil;
 public class ParameterSettingDataTest {
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		String s = "2323010121fe383632323334303231303432343" + "7300100581201120a0d300200010300010400010"
 				+ "5000106000107320800010900010a00010b00010" + "c010d00010e330f0001100182000183018400018"

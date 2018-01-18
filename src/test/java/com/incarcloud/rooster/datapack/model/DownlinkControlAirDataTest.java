@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -21,6 +22,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class DownlinkControlAirDataTest {
 	@Test
+	@Ignore
 	public void testDownlink() throws Exception {
 		ProtocolEngine engine = new ProtocolEngine();
 		DownlinkControlAirData downlink = new DownlinkControlAirData();
@@ -56,6 +58,7 @@ public class DownlinkControlAirDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void testAirControll() throws Exception {
 		GmmcCommandFacotry facotry = new GmmcCommandFacotry();
 		ByteBuf buffer = facotry.createCommand(CommandType.COND_HEAT_CLOSE, "862234021042470",0,"111111111", 10, 20);

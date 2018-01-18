@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.utils.HexStringUtil;
@@ -20,6 +21,7 @@ import io.netty.buffer.ByteBuf;
  */
 public class OtaUpdateDataTest {
 	@Test
+	@Ignore
 	public void testOta() throws Exception {
 		GmmcCommandFacotry facotry = new GmmcCommandFacotry();
 		ByteBuf buffer = facotry.createCommand(CommandType.OPEN_DOOR, "862234021042470", 0, "111111111", "v1.0",
@@ -30,6 +32,7 @@ public class OtaUpdateDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void testLength() {
 //		String s = "000000v1.0000000v1.0";
 //		System.out.println(s.getBytes().length);

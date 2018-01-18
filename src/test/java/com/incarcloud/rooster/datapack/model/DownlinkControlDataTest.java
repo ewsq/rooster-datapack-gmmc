@@ -3,6 +3,7 @@ package com.incarcloud.rooster.datapack.model;
 import java.util.Base64;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -31,6 +32,7 @@ public class DownlinkControlDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void testOpenDoor() throws Exception {
 		ByteBuf buf = factory.createCommand(CommandType.OPEN_DOOR, "862234021042470", 0, "111111111");
 		byte[] bytes = ByteBufUtil.getBytes(buf);
@@ -38,6 +40,7 @@ public class DownlinkControlDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void testByteArray() throws Exception {
 		ProtocolEngine engine = new ProtocolEngine();
 		DownlinkControlData downlink = new DownlinkControlData();
