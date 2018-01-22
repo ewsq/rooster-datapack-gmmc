@@ -38,7 +38,7 @@ public class GmmcCommandFacotry implements CommandFactory {
 	 * 必传参数<br>
 	 * 1> deviceId 设备ID args[0]<br>
 	 * 2> serialNumber 流水号 args[1]<br>
-	 * 3> publicKey 公钥 args[2]<br>
+	 * 3> publicKey 公钥 args[2] <br>
 	 */
 	@Override
 	public ByteBuf createCommand(CommandType type, Object... args) throws Exception {
@@ -51,9 +51,9 @@ public class GmmcCommandFacotry implements CommandFactory {
 		ProtocolEngine engine = new ProtocolEngine();
 		byte[] responseBytes = {};
 		// 基本验证，必须有参数，第一个为设备号deviceId
-		String deviceId = (String) args[0];
+		String deviceId = (String) args[0]; // 设备号-imei
 		int serialNumber = (int) args[1];// 流水号
-		String publicKey = (String) args[2];
+		String publicKey = null; // 公钥
 
 		/**
 		 * deviceCode不足15位，抛出异常。
@@ -71,13 +71,24 @@ public class GmmcCommandFacotry implements CommandFactory {
 		// 报文头部信息
 		Header header = new Header();
 		Tail tail = new Tail();
+
+		/**
+		 * publickey为null：报文不加密<br>
+		 * publickey不为null：报文加密<br>
+		 */
+		if (null == args[2]) {
+			header.setEncryptType(0x00);// 加密方式-不加密
+		} else {
+			header.setEncryptType(0x01);// 加密方式-加密
+			publicKey = (String) args[2];// 公钥
+		}
+
 		// 下行控制默认报文体
 		header.setCarFlag(0x01);// 车辆类型标识 0x01燃油车 ；0x02 新能源车
 		header.setCarType(0x01);// 车型 0x01 ZC；0xRE NS；0x03 NS
 		header.setCmdFlag(0x83);// 命令标识-车辆控制命令
 		header.setResponeFlag(0xFE);// 应答标识 命令包
 		header.setImei(deviceId);// imei
-		header.setEncryptType(0x01);// 加密方式
 		header.setLength(0x00);// 数据单元长度
 		downlink.setHeader(header);// 设置头部信息
 		downlink.setTail(tail);// 设置尾部信息
