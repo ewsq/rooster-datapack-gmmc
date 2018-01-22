@@ -2,6 +2,9 @@ package com.incarcloud.rooster.datapack.model;
 
 import java.util.Arrays;
 
+import com.github.io.protocol.annotation.Element;
+import com.github.io.protocol.annotation.Number;
+
 /**
  * @Title: GmmcPakcage.java
  * @Project: rooster-datapack-gmmc
@@ -15,19 +18,32 @@ public class GmmcPackage {
 	/**
 	 * 包头
 	 */
+	@Element
 	private Header header;
 	/**
 	 * 包体
 	 */
+	@Number(width = 8, length = "getBodyBufferLength")
 	private int[] bodyBuffer;
 	/**
 	 * 包尾
 	 */
+	@Element
 	private Tail tail;
 
 	@Override
 	public String toString() {
 		return "GmmcPakcage [header=" + header + ", bodyBuffer=" + Arrays.toString(bodyBuffer) + ", tail=" + tail + "]";
+	}
+
+	/**
+	 * 获取数据单元长度
+	 * 
+	 * @return 数据单元长度-采集日期长度(6)
+	 */
+	public int getBodyBufferLength() {
+		int length = header.getLength() - 6;
+		return length;
 	}
 
 	public Header getHeader() {

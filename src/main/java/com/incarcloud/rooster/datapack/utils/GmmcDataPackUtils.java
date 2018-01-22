@@ -155,7 +155,7 @@ public class GmmcDataPackUtils extends DataPackUtil {
 			buffer[23] = (byte) (length & 0xFF);
 			// 添加校验码
 			int crc = buffer[4] & 0xFF;
-			for (int i = 3; i < buffer.length - 1; i++) {
+			for (int i = 5; i < buffer.length - 1; i++) {
 				crc = crc ^ (buffer[i] & 0xFF);
 			}
 			buffer[buffer.length - 1] = (byte) (crc & 0xFF);
