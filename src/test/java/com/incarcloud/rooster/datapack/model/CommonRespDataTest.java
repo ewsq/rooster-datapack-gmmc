@@ -36,6 +36,7 @@ public class CommonRespDataTest {
 	}
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		ProtocolEngine engin = new ProtocolEngine();
 		String resp = "2323020102fe3836323233343032313034323437300000061201040b0e06d2";

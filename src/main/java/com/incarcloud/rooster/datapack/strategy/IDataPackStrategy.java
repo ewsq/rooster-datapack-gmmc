@@ -20,20 +20,16 @@ public interface IDataPackStrategy {
 	 * 
 	 * @param datapack
 	 *            报文数据包
-	 * @param key
-	 *            密钥
 	 * @return
 	 */
-	public List<DataPackTarget> decode(DataPack dataPack, String key);
+	public List<DataPackTarget> decode(DataPack dataPack);
 
 	/**
 	 * 封装报文
 	 * 
 	 * @param dataPack
 	 *            下行指令
-	 * @param key
-	 *            密钥
 	 * @return
 	 */
-	public byte[] encode(DataPack dataPack, String key);
+	public byte[] encode(DataPack dataPack);
 }

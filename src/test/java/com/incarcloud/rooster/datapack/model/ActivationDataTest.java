@@ -1,5 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.github.io.protocol.core.ProtocolEngine;
@@ -17,6 +18,7 @@ import com.github.io.protocol.utils.HexStringUtil;
 public class ActivationDataTest {
 
 	@Test
+	@Ignore
 	public void test() throws Exception {
 		ProtocolEngine engie = new ProtocolEngine();
 		String str = "2323020112fe38363232333430323130343234373000001c1201090f193500030101014c47574545554b35334845303030303337b9";// 激活
