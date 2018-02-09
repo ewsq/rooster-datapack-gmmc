@@ -1,18 +1,16 @@
 package com.incarcloud.rooster.datapack.model;
 
-import java.util.Base64;
-
+import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.GmmcCommandFactory;
+import com.incarcloud.rooster.gather.cmd.CommandType;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.GmmcCommandFacotry;
-import com.incarcloud.rooster.gather.cmd.CommandType;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
+import java.util.Base64;
 
 /**
  * @Title: DownlinkControlDataTest.java
@@ -24,11 +22,11 @@ import io.netty.buffer.ByteBufUtil;
  * @version: V1.0
  */
 public class DownlinkControlDataTest {
-	GmmcCommandFacotry factory;
+	GmmcCommandFactory factory;
 
 	@Before
 	public void init() {
-		factory = new GmmcCommandFacotry();
+		factory = new GmmcCommandFactory();
 	}
 
 	@Test

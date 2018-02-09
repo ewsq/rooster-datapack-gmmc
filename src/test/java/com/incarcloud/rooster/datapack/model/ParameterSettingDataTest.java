@@ -1,10 +1,9 @@
 package com.incarcloud.rooster.datapack.model;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class ParameterSettingDataTest {
 

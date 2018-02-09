@@ -1,17 +1,14 @@
 package com.incarcloud.rooster.datapack.model;
 
+import com.github.io.protocol.annotation.*;
+import com.github.io.protocol.annotation.Number;
+import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import com.github.io.protocol.annotation.ByteOrder;
-import com.github.io.protocol.annotation.DateTime;
-import com.github.io.protocol.annotation.Decimal;
-import com.github.io.protocol.annotation.Element;
-import com.github.io.protocol.annotation.Number;
-import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
 
 /**
  * @Title: TripData.java

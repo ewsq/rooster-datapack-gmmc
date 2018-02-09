@@ -1,7 +1,7 @@
 package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.GmmcCommandFacotry;
+import com.incarcloud.rooster.datapack.GmmcCommandFactory;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandType;
 import io.netty.buffer.ByteBuf;
@@ -22,7 +22,7 @@ public class OtaUpdateDataTest {
     @Test
     @Ignore
     public void testOta() throws Exception {
-        GmmcCommandFacotry facotry = new GmmcCommandFacotry();
+        GmmcCommandFactory facotry = new GmmcCommandFactory();
         ByteBuf buffer = facotry.createCommand(CommandType.OTA, "862234021042470", 0, null, "v1.0",
                 "test.tar.gz", "http://www.incarcloud.com/ota/test.tar.gz");
         byte[] bytes = new byte[buffer.readableBytes()];

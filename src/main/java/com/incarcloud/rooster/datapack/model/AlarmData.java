@@ -1,9 +1,6 @@
 package com.incarcloud.rooster.datapack.model;
 
-import com.github.io.protocol.annotation.ByteOrder;
-import com.github.io.protocol.annotation.DateTime;
-import com.github.io.protocol.annotation.Decimal;
-import com.github.io.protocol.annotation.Element;
+import com.github.io.protocol.annotation.*;
 import com.github.io.protocol.annotation.Number;
 
 /**
