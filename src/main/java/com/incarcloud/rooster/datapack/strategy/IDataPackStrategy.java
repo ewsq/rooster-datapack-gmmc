@@ -1,9 +1,9 @@
 package com.incarcloud.rooster.datapack.strategy;
 
-import java.util.List;
-
 import com.incarcloud.rooster.datapack.DataPack;
 import com.incarcloud.rooster.datapack.DataPackTarget;
+
+import java.util.List;
 
 /**
  * @Title: IDataPackStrategy.java
@@ -18,7 +18,7 @@ public interface IDataPackStrategy {
 	/**
 	 * 解析报文数据
 	 * 
-	 * @param datapack
+	 * @param dataPack
 	 *            报文数据包
 	 * @return
 	 */

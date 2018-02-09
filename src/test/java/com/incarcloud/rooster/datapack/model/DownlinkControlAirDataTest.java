@@ -1,15 +1,13 @@
 package com.incarcloud.rooster.datapack.model;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.GmmcCommandFacotry;
+import com.incarcloud.rooster.datapack.GmmcCommandFactory;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandType;
-
 import io.netty.buffer.ByteBuf;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @Title: DownlinkControlAirDataTest.java
@@ -21,6 +19,7 @@ import io.netty.buffer.ByteBuf;
  * @version: V1.0
  */
 public class DownlinkControlAirDataTest {
+
 	@Test
 	@Ignore
 	public void testDownlink() throws Exception {
@@ -60,7 +59,7 @@ public class DownlinkControlAirDataTest {
 	@Test
 	@Ignore
 	public void testAirControll() throws Exception {
-		GmmcCommandFacotry facotry = new GmmcCommandFacotry();
+		GmmcCommandFactory facotry = new GmmcCommandFactory();
 		ByteBuf buffer = facotry.createCommand(CommandType.COND_HEAT_CLOSE, "862234021042470",0,"111111111", 10, 20);
 		byte[] bytes = new byte[buffer.readableBytes()];
 		buffer.readBytes(bytes);

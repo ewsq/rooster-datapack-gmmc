@@ -1,10 +1,5 @@
 package com.incarcloud.rooster.datapack.strategy.impl;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-
 import com.github.io.protocol.core.ProtocolEngine;
 import com.incarcloud.rooster.datapack.DataPack;
 import com.incarcloud.rooster.datapack.DataPackObject;
@@ -13,6 +8,11 @@ import com.incarcloud.rooster.datapack.DataPackTrip;
 import com.incarcloud.rooster.datapack.model.TripData;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Title: TripDataStrategy.java

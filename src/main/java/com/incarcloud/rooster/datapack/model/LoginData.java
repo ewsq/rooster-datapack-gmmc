@@ -1,12 +1,9 @@
 package com.incarcloud.rooster.datapack.model;
 
-import java.util.Arrays;
-
-import com.github.io.protocol.annotation.AsciiString;
-import com.github.io.protocol.annotation.ByteOrder;
-import com.github.io.protocol.annotation.DateTime;
-import com.github.io.protocol.annotation.Element;
+import com.github.io.protocol.annotation.*;
 import com.github.io.protocol.annotation.Number;
+
+import java.util.Arrays;
 
 /**
  * @Title: LoginData.java

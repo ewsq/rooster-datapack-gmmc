@@ -24,13 +24,13 @@ import io.netty.buffer.Unpooled;
  * @author Aaric, created on 2017-11-22T17:54.
  * @since 2.0
  */
-public class GmmcCommandFacotry implements CommandFactory {
+public class GmmcCommandFactory implements CommandFactory {
 
 	static {
 		/**
 		 * 声明数据包版本与命令工厂类关系
 		 */
-		CommandFacotryManager.registerCommandFacotry(DataParserGmmc.PROTOCOL_PREFIX + "0.3", GmmcCommandFacotry.class);
+		CommandFacotryManager.registerCommandFacotry(DataParserGmmc.PROTOCOL_PREFIX + "0.3", GmmcCommandFactory.class);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class GmmcCommandFacotry implements CommandFactory {
 	 */
 	@Override
 	public ByteBuf createCommand(CommandType type, Object... args) throws Exception {
-
+		// TODO 下发报文使用securityKey密钥AES加密
 		if (null == args && 0 < args.length) {
 			throw new IllegalArgumentException("args is null");
 		}

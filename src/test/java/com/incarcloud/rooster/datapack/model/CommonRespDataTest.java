@@ -1,21 +1,19 @@
 package com.incarcloud.rooster.datapack.model;
 
+import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
-
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 
 /**
  * @Title: CommonRespDataTest.java
@@ -27,6 +25,7 @@ import io.netty.buffer.Unpooled;
  * @version: V1.0
  */
 public class CommonRespDataTest {
+
 	String resp;
 
 	@Before

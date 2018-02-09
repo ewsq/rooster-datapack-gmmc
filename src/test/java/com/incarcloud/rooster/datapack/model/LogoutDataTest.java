@@ -1,11 +1,10 @@
 package com.incarcloud.rooster.datapack.model;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * @Title: LogoutDataTest.java

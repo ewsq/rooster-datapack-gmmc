@@ -1,15 +1,15 @@
 package com.incarcloud.rooster.datapack.model;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.AlarmDataStrategy;
 import com.incarcloud.rooster.datapack.strategy.impl.RunDataStrategy;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class RunDataTest {
+
 	private IDataPackStrategy strategy = new RunDataStrategy();
 
 	private IDataPackStrategy strategy09 = new AlarmDataStrategy();
