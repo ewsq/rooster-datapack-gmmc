@@ -1,15 +1,15 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.model.CommonRespData;
-import com.incarcloud.rooster.datapack.model.DownlinkControlAirData;
-import com.incarcloud.rooster.datapack.model.DownlinkControlAirMoreData;
-import com.incarcloud.rooster.datapack.model.DownlinkControlData;
-import com.incarcloud.rooster.datapack.model.Header;
-import com.incarcloud.rooster.datapack.model.OtaUpdateData;
-import com.incarcloud.rooster.datapack.model.ParameterSettingData;
-import com.incarcloud.rooster.datapack.model.Tail;
-import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import com.incarcloud.rooster.datapack.gmmc.model.CommonRespData;
+import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlAirData;
+import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlAirMoreData;
+import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlData;
+import com.incarcloud.rooster.datapack.gmmc.model.Header;
+import com.incarcloud.rooster.datapack.gmmc.model.OtaUpdateData;
+import com.incarcloud.rooster.datapack.gmmc.model.ParameterSettingData;
+import com.incarcloud.rooster.datapack.gmmc.model.Tail;
+import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandFacotryManager;
 import com.incarcloud.rooster.gather.cmd.CommandFactory;
 import com.incarcloud.rooster.gather.cmd.CommandType;
@@ -37,7 +37,7 @@ public class GmmcCommandFactory implements CommandFactory {
 	 * 必传参数<br>
 	 * 1> deviceId 设备ID args[0]<br>
 	 * 2> serialNumber 流水号 args[1]<br>
-	 * 3> publicKey 公钥 args[2]<br>
+	 * 3> securityKey 安全密钥 args[2]<br>
 	 */
 	@Override
 	public ByteBuf createCommand(CommandType type, Object... args) throws Exception {
@@ -52,7 +52,7 @@ public class GmmcCommandFactory implements CommandFactory {
 		// 基本验证，必须有参数，第一个为设备号deviceId
 		String deviceId = (String) args[0];
 		int serialNumber = (int) args[1];// 流水号
-		String publicKey = (String) args[2];
+		String securityKey = (String) args[2];
 
 		/**
 		 * deviceCode不足15位，抛出异常。
@@ -380,12 +380,12 @@ public class GmmcCommandFactory implements CommandFactory {
 					int sample = (int) args[17];
 					setting.setSample(sample);
 					/**
-					 * 延时工作模式下，心跳发送周期
+					 * 延时工作模式下，CAN信息上报时间周期
 					 */
 					int canDelay = (int) args[18];
 					setting.setCanDelay(canDelay);
 					/**
-					 * 休眠时，定位信息上报时间周期
+					 * 延时工作模式下，心跳发送周期
 					 */
 					int heartbeatDelay = (int) args[19];
 					setting.setHeartbeatDelay(heartbeatDelay);

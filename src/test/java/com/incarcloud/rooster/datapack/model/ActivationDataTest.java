@@ -2,6 +2,7 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.gmmc.model.ActivationData;
 import org.junit.Ignore;
 import org.junit.Test;
 

@@ -2,7 +2,7 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.GmmcCommandFactory;
-import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandType;
 import io.netty.buffer.ByteBuf;
 import org.junit.Ignore;

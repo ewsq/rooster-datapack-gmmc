@@ -2,7 +2,8 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import com.incarcloud.rooster.datapack.gmmc.model.CommonRespData;
+import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.junit.Before;
