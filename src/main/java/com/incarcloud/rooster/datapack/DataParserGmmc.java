@@ -1,16 +1,20 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.model.*;
-import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
-import com.incarcloud.rooster.datapack.strategy.impl.*;
-import com.incarcloud.rooster.datapack.utils.GmmcDataPackUtils;
+import com.incarcloud.rooster.datapack.gmmc.model.*;
+import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
+import com.incarcloud.rooster.datapack.gmmc.strategy.impl.*;
+import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.security.AesUtil;
+import com.incarcloud.rooster.security.RsaUtil;
+import com.incarcloud.rooster.share.Constants;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * GMMC设备协议数据包解析器
@@ -19,6 +23,8 @@ import java.util.*;
  * @since 2.0
  */
 public class DataParserGmmc implements IDataParser {
+
+    private ConcurrentMap<String,SecurityData> keyMap = new ConcurrentHashMap() ;
 
     /**
      * 协议分组和名称
@@ -49,8 +55,6 @@ public class DataParserGmmc implements IDataParser {
      */
     @Override
     public List<DataPack> extract(ByteBuf buffer) {
-        // TODO 如果报文被加密，将报文解密后，生成新的报文返回
-        // TODO 登陆报文使用privateKey解密，其他报文使用securityKey解密
         DataPack dataPack;
         List<DataPack> dataPackList = new ArrayList<>();
 
@@ -72,9 +76,11 @@ public class DataParserGmmc implements IDataParser {
                     byte[] header = new byte[24];
                     // 写入协议头数据
                     buffer.readBytes(header);
+
                     // 获取包体长度
                     byte[] length = new byte[2];
                     System.arraycopy(header, 22, length, 0, 2);
+
 
                     int bit32 = 0;
                     bit32 = length[0] & 0xFF;
@@ -94,6 +100,7 @@ public class DataParserGmmc implements IDataParser {
                     byte[] dataBytes = new byte[bit32 + 25];
                     // 读取数据到数组
                     data.readBytes(dataBytes);
+
                     // 数据包校验
                     boolean check = false;
                     int offset = 0;// 起始位置
@@ -130,7 +137,9 @@ public class DataParserGmmc implements IDataParser {
         }
         // 扔掉已读数据
         buffer.discardReadBytes();
-        return dataPackList;
+
+        //解密逻辑处理
+        return decryption(dataPackList) ;
     }
 
     /**
@@ -318,7 +327,6 @@ public class DataParserGmmc implements IDataParser {
      */
     @Override
     public Map<String, Object> getMetaData(ByteBuf buffer) {
-        // TODO 必须返回protocol, algorithm, deviceId，vin可以不返回
         // 获取解析报文并进行校验,报文校验不通过返回null
         byte[] dataPackBytes = GmmcDataPackUtils.readBytes(buffer, buffer.readableBytes());
         // 判断报文是否为空
@@ -329,17 +337,34 @@ public class DataParserGmmc implements IDataParser {
             if (null != dataPackBytes) {
                 Map<String, Object> metaDataMap = new HashMap<>();
                 // 协议版本
-                metaDataMap.put("protocol", PROTOCOL_PREFIX + PROTOCOL_VERSION);
+                metaDataMap.put(Constants.MetaDataMapKey.PROTOCOL, PROTOCOL_PREFIX + PROTOCOL_VERSION);
                 // 获取TBOX硬件的IMEI号码，由 15位字码构成，字码应符合GB16735 中 4.5 的规定
                 String imei = new String(GmmcDataPackUtils.getRange(dataPackBytes, 6, 21));
-                metaDataMap.put("imei", imei);
+                metaDataMap.put(Constants.MetaDataMapKey.DEVICE_ID, imei);
                 // 判断是否是登入报文,只有登入报文才有vin码，其他报文只有imei
-                if (1 == cmdFlag) {
-                    /**
-                     * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
-                     */
-                    String vin = new String(GmmcDataPackUtils.getRange(dataPackBytes, 180, 197));
-                    metaDataMap.put("vin", vin.trim());
+                switch (cmdFlag){
+                    case 0x01 : //登入
+                        /**
+                         * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
+                         */
+                        String vin = new String(GmmcDataPackUtils.getRange(dataPackBytes, 180, 197));
+                        metaDataMap.put(Constants.MetaDataMapKey.VIN, vin.trim());
+                        metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.LOGIN) ;
+                        break;
+                    case 0x12 : //激活
+                        /**
+                         * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
+                         */
+                        String vinCode = new String(GmmcDataPackUtils.getRange(dataPackBytes, 142, 159));
+                        metaDataMap.put(Constants.MetaDataMapKey.VIN, vinCode.trim());
+                        metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.ACTIVATE) ;
+                        break;
+                    case 0x05 : //登出
+                        metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.LOGOUT) ;
+                        break;
+                    default :
+                        metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.NORMAL) ;
+                        break;
                 }
                 return metaDataMap;
             }
@@ -347,24 +372,167 @@ public class DataParserGmmc implements IDataParser {
         return null;
     }
 
+
     @Override
-    public void setPrivateKey(byte[] n, byte[] e) {
-        // TODO 缓存RSA私钥
+    public void setPrivateKey(String deviceId, byte[] n, byte[] e) {
+        SecurityData securityData = keyMap.get(deviceId) ;
+        if (null == securityData) securityData = new SecurityData() ;
+        securityData.setPrivateKeyModulusBytes(n);
+        securityData.setPrivateKeyExponentBytes(e);
+        keyMap.put(deviceId,securityData) ;
     }
 
     @Override
-    public void setPublicKey(byte[] n, long e) {
-        // TODO 缓存RSA公钥
+    public void setPublicKey(String deviceId, byte[] n, long e) {
+        SecurityData securityData = keyMap.get(deviceId) ;
+        if (null == securityData) securityData = new SecurityData() ;
+        securityData.setPublicKeyModulusBytes(n);
+        securityData.setPublicKeyExponent(e);
+        keyMap.put(deviceId,securityData) ;
     }
 
     @Override
-    public byte[] getSecurityKey() {
-        // TODO 删除以下代码，返回缓存的AES密钥信息
+    public byte[] getSecurityKey(String deviceId) {
         try {
-            return AesUtil.generateAesSecret();
+            SecurityData securityData = keyMap.get(deviceId) ;
+            if (null == securityData) return null ;
+            return securityData.getSecurityKey() ;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    /**
+     * 设置 securityKey
+     * @param deviceId
+     * @param securityKey
+     */
+    private void setSecurityKey(String deviceId,byte[] securityKey){
+        SecurityData securityData = keyMap.get(deviceId) ;
+        if (null == securityData) securityData = new SecurityData() ;
+        securityData.setSecurityKey(securityKey);
+        keyMap.put(deviceId,securityData) ;
+    }
+
+    /**
+     * 初解数据解密
+     * @param dataPacks
+     * @return
+     */
+    private List<DataPack> decryption(List<DataPack> dataPacks){
+
+        List<DataPack> dataPackList = new ArrayList<>() ;
+        // 解析器
+        ProtocolEngine engine = new ProtocolEngine();
+
+        if (null != dataPacks){
+            for (int x = 0 ; x < dataPacks.size() ; x ++){
+                ByteBuf byteBuf = Unpooled.buffer() ;
+                DataPack dataPack = dataPacks.get(x) ;
+                int index = 0 ;
+                byte[] bytes = dataPack.getDataBytes() ;
+                // 获取协议头
+                byte[] header = new byte[24];
+
+                System.arraycopy(bytes,0,header,0,24);
+
+                index += header.length ;
+                // 从协议头中判断是否需要加解密
+                Header headerData = null;
+                try {
+                    headerData = engine.decode(header, Header.class);// 包头
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                //写入Header
+                byteBuf.writeBytes(header) ;
+
+                // 获取包体长度
+                byte[] length = new byte[2];
+                System.arraycopy(header, 22, length, 0, 2);
+
+                int bit32 = 0;
+                bit32 = length[0] & 0xFF;
+                bit32 = bit32 << 8;
+                bit32 |= (length[1] & 0xFF);
+
+                String deviceId = headerData.getImei() ;
+                SecurityData securityData = keyMap.get(deviceId) ;
+
+                if (null == securityData) continue;
+
+                //0x00：数据不加密；0x01：数据经过RSA算法加密；0x02：数据经过AES加密算法加密，0xFF：无效数据；其他预留
+                int encryptType = headerData.getEncryptType() ;
+
+                try {
+                    //RSA解密 128 为一组
+                    if (encryptType == 0x01){
+                        int group = bit32/128 + bit32%128 > 0 ? 1 : 0;
+
+                        byte[] privateKeyModulusBytes = securityData.getPrivateKeyModulusBytes() ;
+                        byte[] privateKeyExponentBytes = securityData.getPrivateKeyExponentBytes() ;
+
+                        for (int i = 0 ; i < group ; i++){
+                            byte[] dataByte = new byte[128] ;
+                            System.arraycopy(bytes,index,dataByte,0,128);
+                            index += 128 ;
+                            byte[] rsaByte = RsaUtil.decryptByRsaPrivate(dataByte,privateKeyModulusBytes,privateKeyExponentBytes);
+                            //写入数据单元
+                            byteBuf.writeBytes(rsaByte);
+                        }
+
+                    }else if(encryptType == 0x02){ //AES 加密
+                        byte[] dataByte = new byte[bit32] ;
+                        System.arraycopy(bytes,index,dataByte,0,bit32);
+                        byte[] securityKey = securityData.getSecurityKey() ;
+                        byte[] aesByte = AesUtil.decrypt(dataByte,securityKey) ;
+                        //写入数据单元
+                        byteBuf.writeBytes(aesByte) ;
+                    }else{
+                        dataPackList.add(dataPack) ;
+                        //释放byteBuff
+                        dataPack.freeBuf();
+                        continue;
+                    }
+
+                    //补位--检验码
+                    byteBuf.writeByte((byte)0x01) ;
+
+                    byte[] dataBytes = byteBuf.array() ;
+                    //设置为未加密
+                    dataBytes[21] = 0x00 ;
+                    //数据单元长度+检验码处理
+                    GmmcDataPackUtils.addCheck(dataBytes);
+
+                    DataPack data = new DataPack(PROTOCOL_GROUP, PROTOCOL_NAME, PROTOCOL_VERSION);
+                    ByteBuf buf = Unpooled.wrappedBuffer(dataBytes);
+                    data.setBuf(buf);
+
+                    dataPackList.add(data);
+
+                    /**
+                     * 判断是否登入
+                     * 将SecurityKey存入缓存
+                     */
+                    if (headerData.getCmdFlag() == 0x01){
+                        LoginData loginData = engine.decode(dataBytes,LoginData.class) ;
+                        setSecurityKey(deviceId,loginData.getSecurityKey()) ;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //释放资源
+                    byteBuf.release();
+                }
+                //释放byteBuff
+                dataPack.freeBuf();
+            }
+        }
+
+        return dataPackList ;
+    }
+
 }

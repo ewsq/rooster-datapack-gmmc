@@ -2,9 +2,10 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
-import com.incarcloud.rooster.datapack.strategy.IDataPackStrategy;
-import com.incarcloud.rooster.datapack.strategy.impl.AlarmDataStrategy;
-import com.incarcloud.rooster.datapack.strategy.impl.RunDataStrategy;
+import com.incarcloud.rooster.datapack.gmmc.model.AlarmData;
+import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
+import com.incarcloud.rooster.datapack.gmmc.strategy.impl.AlarmDataStrategy;
+import com.incarcloud.rooster.datapack.gmmc.strategy.impl.RunDataStrategy;
 import org.junit.Ignore;
 import org.junit.Test;
 

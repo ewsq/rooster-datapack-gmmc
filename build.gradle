@@ -32,10 +32,9 @@ allprojects {
         }
     }
 
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 10, 'minutes'
-        resolutionStrategy.cacheDynamicVersionsFor 10*60, 'seconds'
-    }
+//    configurations {
+//        compile.resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    }
 
     compileJava{
         options.encoding = "utf-8"
