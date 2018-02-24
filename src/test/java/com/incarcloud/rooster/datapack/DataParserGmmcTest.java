@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.security.RsaUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -59,10 +60,9 @@ public class DataParserGmmcTest {
 
     @Test
     public void test() throws Exception {
-        String buffStr = "29a0a7c85dba5cba9a636eee2cf9fa3372de36b8a61b4790b9d27a37984a99038c69afb9562979ab91bdd3a010c7d7affec9788e1528bbf279ac4d913c75d92cdfcf7232eace5fbc7e54b8a0fac492e9845e26468a2d3fafe96a198176ee3a34fb43d2fbf9efe30a717f1dac819cbe1198490d81baccdfd9b82cd20b06ea92fa" ;
-        byte[] rsabb = HexStringUtil.parseBytes(buffStr);
-        byte[] content = RsaUtil.decryptByRsaPrivate(rsabb, "ALG7YmTar/YHt+lPGSCkZsqWORuG/ebrukbST/O0KrODi4XaWONYjY43yKUfM6UufU/wNT0jL7v4WM/FbTqNQzBLNW7ut+hCYbUZLYwgGsOagla/OrXwN8Puy6F+f0OxVs2wyVIYDHN4PreFnxG7C28puhz65nKvk+7lxx0oZUWj", "bbrxPq894DpXs7XgH6UgyYcB7xri+4UiVsNWFXJwwrA+nf92zbZIfzu1pyyiaCNRvt7hH8Pvnq/vtSeBDptUlR77pe71kdDcosI5Le7yjgP/Et0epHqWnusKpcqSshcJfP+u+tS61BljAuN9f9XSR+k2p0YhvTQJJEvaD9JQQrE=");
-        System.err.println(ByteBufUtil.hexDump(content));
-
+        String buffStr = "2323010112fe3931313131313131313131313131390000171202180a13194c534241414141414141414141414139399f" ;
+        byte[] dataPackBytes = HexStringUtil.parseBytes(buffStr);
+        String vinCode = new String(GmmcDataPackUtils.getRange(dataPackBytes, 30, 47));
+        System.out.println(vinCode);
     }
 }

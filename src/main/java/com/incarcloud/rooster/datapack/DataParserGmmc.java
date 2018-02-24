@@ -1,7 +1,6 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.*;
@@ -26,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataParserGmmc implements IDataParser {
 
-    private static ConcurrentMap<String,SecurityData> keyMap = new ConcurrentHashMap() ;
+    private static ConcurrentMap<String,SecurityData> keyMap = new ConcurrentHashMap<>() ;
 
     /**
      * 协议分组和名称
@@ -357,7 +356,7 @@ public class DataParserGmmc implements IDataParser {
                         /**
                          * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
                          */
-                        String vinCode = new String(GmmcDataPackUtils.getRange(dataPackBytes, 142, 159));
+                        String vinCode = new String(GmmcDataPackUtils.getRange(dataPackBytes, 30, 47));
                         metaDataMap.put(Constants.MetaDataMapKey.VIN, vinCode.trim());
                         metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.ACTIVATE) ;
                         break;
