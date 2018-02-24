@@ -42,7 +42,7 @@ public class DataParserGmmcTest {
 
     @Test
     public void testActivation(){
-        String buffStr = "2323010101fe39313131313131313131313131313901008029a0a7c85dba5cba9a636eee2cf9fa3372de36b8a61b4790b9d27a37984a99038c69afb9562979ab91bdd3a010c7d7affec9788e1528bbf279ac4d913c75d92cdfcf7232eace5fbc7e54b8a0fac492e9845e26468a2d3fafe96a198176ee3a34fb43d2fbf9efe30a717f1dac819cbe1198490d81baccdfd9b82cd20b06ea92fa22" ;
+        String buffStr = "2323010112fe3931313131313131313131313131390000171202180a13194c534241414141414141414141414139399f" ;
         byte[] bytes = HexStringUtil.parseBytes(buffStr);
         ByteBuf buf = Unpooled.buffer();
         buf.writeBytes(bytes) ;
@@ -50,7 +50,7 @@ public class DataParserGmmcTest {
         String deviceId = "911111111111119" ;
         String privateKeye = "bbrxPq894DpXs7XgH6UgyYcB7xri+4UiVsNWFXJwwrA+nf92zbZIfzu1pyyiaCNRvt7hH8Pvnq/vtSeBDptUlR77pe71kdDcosI5Le7yjgP/Et0epHqWnusKpcqSshcJfP+u+tS61BljAuN9f9XSR+k2p0YhvTQJJEvaD9JQQrE=" ;
         String privateKeyn = "ALG7YmTar/YHt+lPGSCkZsqWORuG/ebrukbST/O0KrODi4XaWONYjY43yKUfM6UufU/wNT0jL7v4WM/FbTqNQzBLNW7ut+hCYbUZLYwgGsOagla/OrXwN8Puy6F+f0OxVs2wyVIYDHN4PreFnxG7C28puhz65nKvk+7lxx0oZUWj" ;
-        dataParserGmmc.setPrivateKey(deviceId, Base64.getDecoder().decode(privateKeyn),Base64.getDecoder().decode(privateKeye));
+//        dataParserGmmc.setPrivateKey(deviceId, Base64.getDecoder().decode(privateKeyn),Base64.getDecoder().decode(privateKeye));
 
         List<DataPack> dataPacks = dataParserGmmc.extract(buf) ;
         System.out.println(dataPacks);

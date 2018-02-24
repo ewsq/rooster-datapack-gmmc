@@ -468,10 +468,10 @@ public class DataParserGmmc implements IDataParser {
                 String deviceId = headerData.getImei() ;
                 SecurityData securityData = keyMap.get(deviceId) ;
 
-                if (null == securityData) continue;
-
                 //0x00：数据不加密；0x01：数据经过RSA算法加密；0x02：数据经过AES加密算法加密，0xFF：无效数据；其他预留
                 int encryptType = headerData.getEncryptType() ;
+
+                if (null == securityData && encryptType != 0x00) continue;
 
                 try {
                     //RSA解密 128 为一组
