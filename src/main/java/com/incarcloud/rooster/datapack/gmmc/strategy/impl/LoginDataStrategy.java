@@ -71,7 +71,7 @@ public class LoginDataStrategy implements IDataPackStrategy {
 		// 登入登出流水号
 		logInOut.setSerialNo(loginData.getSerialNumber());
 		// 加密密钥-base64字符串
-		logInOut.setSecurityKey(GmmcDataPackUtils.getBase64OfInt(loginData.getSecurityKey()));
+//		logInOut.setSecurityKey(GmmcDataPackUtils.getBase64OfInt(loginData.getSecurityKey()));
 		dataPackTargetList.add(new DataPackTarget(logInOut));
 		return dataPackTargetList;
 	}

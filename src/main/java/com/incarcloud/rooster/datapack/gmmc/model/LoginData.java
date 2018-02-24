@@ -37,8 +37,8 @@ public class LoginData {
 	 * <p>
 	 * 128位的密钥，用于对称加密。SecurityKey
 	 */
-	@Number(width = 8, length = "128")
-	private byte[] securityKey;
+	@Number(width = 8, length = "16")
+	private int[] securityKey;
 	/**
 	 * 软件版本号
 	 */
@@ -110,11 +110,11 @@ public class LoginData {
 		this.serialNumber = serialNumber;
 	}
 
-	public byte[] getSecurityKey() {
+	public int[] getSecurityKey() {
 		return securityKey;
 	}
 
-	public void setSecurityKey(byte[] securityKey) {
+	public void setSecurityKey(int[] securityKey) {
 		this.securityKey = securityKey;
 	}
 
