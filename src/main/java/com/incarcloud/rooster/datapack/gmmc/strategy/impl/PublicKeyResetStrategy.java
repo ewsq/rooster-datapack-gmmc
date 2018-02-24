@@ -1,11 +1,9 @@
 package com.incarcloud.rooster.datapack.gmmc.strategy.impl;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.DataPack;
-import com.incarcloud.rooster.datapack.DataPackActivation;
-import com.incarcloud.rooster.datapack.DataPackObject;
-import com.incarcloud.rooster.datapack.DataPackTarget;
+import com.incarcloud.rooster.datapack.*;
 import com.incarcloud.rooster.datapack.gmmc.model.ActivationData;
+import com.incarcloud.rooster.datapack.gmmc.model.SecurityData;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 
@@ -44,7 +42,8 @@ public class PublicKeyResetStrategy implements IDataPackStrategy {
 		// 基础信息
 		DataPackObject dataPackObject = new DataPackObject(dataPack);
 		// 设备ID
-		dataPackObject.setDeviceId(activationData.getHeader().getImei());
+		String deviceId = activationData.getHeader().getImei() ;
+		dataPackObject.setDeviceId(deviceId);
 		// vin
 		dataPackObject.setVin(activationData.getVin());
 		// 设置数据采集时间
@@ -56,14 +55,17 @@ public class PublicKeyResetStrategy implements IDataPackStrategy {
 
 		// 添加返回结果集
 		DataPackActivation dataPackActivation = new DataPackActivation(dataPackObject);
-		// 公钥
-		dataPackActivation.setPublicKey(GmmcDataPackUtils.getBase64OfInt(activationData.getPublicKey()));
-		// 公钥长度
-		dataPackActivation.setLength(activationData.getPublicKeyLength());
-		// 类型
-		dataPackActivation.setActivationType(DataPackActivation.PUBLIC_KEY_RESET);
+		SecurityData securityData = DataParserGmmc.getSecurityData(deviceId) ;
 
-		dataPackTargetList.add(new DataPackTarget(dataPackActivation));
+		if (null != securityData){
+
+			dataPackActivation.setPublicKeyModulusBytes(securityData.getPublicKeyModulusBytes());
+			dataPackActivation.setPublicKeyExponent(securityData.getPublicKeyExponent());
+			// 类型
+			dataPackActivation.setActivationType(DataPackActivation.PUBLIC_KEY_RESET);
+
+			dataPackTargetList.add(new DataPackTarget(dataPackActivation));
+		}
 
 		return dataPackTargetList;
 	}

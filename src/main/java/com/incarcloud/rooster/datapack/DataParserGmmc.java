@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.*;
@@ -9,6 +10,7 @@ import com.incarcloud.rooster.security.AesUtil;
 import com.incarcloud.rooster.security.RsaUtil;
 import com.incarcloud.rooster.share.Constants;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
 
@@ -24,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataParserGmmc implements IDataParser {
 
-    private ConcurrentMap<String,SecurityData> keyMap = new ConcurrentHashMap() ;
+    private static ConcurrentMap<String,SecurityData> keyMap = new ConcurrentHashMap() ;
 
     /**
      * 协议分组和名称
@@ -403,6 +405,11 @@ public class DataParserGmmc implements IDataParser {
         return null;
     }
 
+    public static SecurityData getSecurityData(String deviceId){
+        SecurityData securityData = keyMap.get(deviceId) ;
+        return securityData ;
+    }
+
     /**
      * 设置 securityKey
      * @param deviceId
@@ -491,7 +498,11 @@ public class DataParserGmmc implements IDataParser {
                         //写入数据单元
                         byteBuf.writeBytes(aesByte) ;
                     }else{
-                        dataPackList.add(dataPack) ;
+
+                        DataPack data = new DataPack(PROTOCOL_GROUP, PROTOCOL_NAME, PROTOCOL_VERSION);
+                        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
+                        data.setBuf(buf);
+                        dataPackList.add(data) ;
                         //释放byteBuff
                         dataPack.freeBuf();
                         continue;
@@ -500,7 +511,7 @@ public class DataParserGmmc implements IDataParser {
                     //补位--检验码
                     byteBuf.writeByte((byte)0x01) ;
 
-                    byte[] dataBytes = byteBuf.array() ;
+                    byte[] dataBytes = ByteBufUtil.getBytes(byteBuf);
                     //设置为未加密
                     dataBytes[21] = 0x00 ;
                     //数据单元长度+检验码处理
@@ -517,8 +528,8 @@ public class DataParserGmmc implements IDataParser {
                      * 将SecurityKey存入缓存
                      */
                     if (headerData.getCmdFlag() == 0x01){
-                        LoginData loginData = engine.decode(dataBytes,LoginData.class) ;
-                        setSecurityKey(deviceId,loginData.getSecurityKey()) ;
+                        byte[] securityKey = GmmcDataPackUtils.getRange(dataBytes, 32, 48) ;
+                        setSecurityKey(deviceId,securityKey) ;
                     }
 
                 } catch (Exception e) {
