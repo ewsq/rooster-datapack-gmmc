@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.*;
@@ -373,6 +374,28 @@ public class DataParserGmmc implements IDataParser {
         return null;
     }
 
+    @Override
+    public String getDeviceId(ByteBuf buffer) {
+        String deviceId = null ;
+        // 获取解析报文并进行校验,报文校验不通过返回null
+        byte[] dataPackBytes = GmmcDataPackUtils.readBytes(buffer, buffer.readableBytes());
+        // 判断报文是否为空
+        if (null != dataPackBytes) {
+            for (int i = 0 ; i < dataPackBytes.length - 1 ; i++){
+                if (dataPackBytes[i] == 0x23 && dataPackBytes[i+1] == 0x23){
+                    // 获取TBOX硬件的IMEI号码，由 15位字码构成，字码应符合GB16735 中 4.5 的规定
+                    try {
+                        //有可能报文长度问题，导致取值异常
+                        deviceId = new String(GmmcDataPackUtils.getRange(dataPackBytes, 6+i, 21+i));
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+        return deviceId;
+    }
 
     @Override
     public void setPrivateKey(String deviceId, byte[] n, byte[] e) {
