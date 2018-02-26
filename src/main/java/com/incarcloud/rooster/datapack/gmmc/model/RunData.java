@@ -13,7 +13,8 @@ import com.github.io.protocol.annotation.Number;
  * @date: 2017年12月1日 上午9:42:00
  * @version: V1.0
  */
-public class RunData {
+public class
+RunData {
 	/**
 	 * 包头
 	 */

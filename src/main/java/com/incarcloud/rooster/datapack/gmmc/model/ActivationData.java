@@ -25,12 +25,12 @@ public class ActivationData {
 	 */
 	@DateTime
 	private long gatherTime;
-	/**
-	 * 公钥长度<br>
-	 * TBox公钥长度。范围（0-255）
-	 */
-	@Number(width = 16, order = ByteOrder.BigEndian)
-	private int publicKeyLength;
+//	/**
+//	 * 公钥长度<br>
+//	 * TBox公钥长度。范围（0-255）
+//	 */
+//	@Number(width = 16, order = ByteOrder.BigEndian)
+//	private int publicKeyLength;
 //	/**
 //	 * 公钥<br>
 //	 * TBox公钥,长度为公钥长度定义的长度
@@ -44,9 +44,9 @@ public class ActivationData {
 	@AsciiString(length = "17")
 	private String vin;
 
-	public int getKeyLength() {
-		return publicKeyLength;
-	}
+//	public int getKeyLength() {
+//		return publicKeyLength;
+//	}
 
 	/**
 	 * 包尾
@@ -70,13 +70,13 @@ public class ActivationData {
 		this.gatherTime = gatherTime;
 	}
 
-	public int getPublicKeyLength() {
-		return publicKeyLength;
-	}
-
-	public void setPublicKeyLength(int publicKeyLength) {
-		this.publicKeyLength = publicKeyLength;
-	}
+//	public int getPublicKeyLength() {
+//		return publicKeyLength;
+//	}
+//
+//	public void setPublicKeyLength(int publicKeyLength) {
+//		this.publicKeyLength = publicKeyLength;
+//	}
 
 	public String getVin() {
 		return vin;
@@ -96,9 +96,11 @@ public class ActivationData {
 
 	@Override
 	public String toString() {
-		return "ActivationData [header=" + header + ", gatherTime=" + gatherTime + ", publicKeyLength="
-				+ publicKeyLength + ", vin=" + vin + ", tail=" + tail
-				+ "]";
+		return "ActivationData{" +
+				"header=" + header +
+				", gatherTime=" + gatherTime +
+				", vin='" + vin + '\'' +
+				", tail=" + tail +
+				'}';
 	}
-
 }
