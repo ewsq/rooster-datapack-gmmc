@@ -177,11 +177,18 @@ public class DataParserGmmc implements IDataParser {
                      */
                     Integer cmdFlag = dataPackBytes[4] & 0xFF;
 
-                    if (0x11 == cmdFlag || 0x12 == cmdFlag || 0x13 == cmdFlag || 0x01 == cmdFlag || 0x05 == cmdFlag
+                    int responseFlag = 0x02 ;
+                    if(reason == ERespReason.OK){
+                        responseFlag = 0x01 ;
+                    }else if(reason == ERespReason.MISMATCH){
+                        responseFlag = 0x04 ;
+                    }
+
+                    if (0x11 == cmdFlag || 0x13 == cmdFlag || 0x01 == cmdFlag || 0x05 == cmdFlag
                             || 0x08 == cmdFlag || 0x09 == cmdFlag || 0x22 == cmdFlag || 0x24 == cmdFlag) {
 
                         // 设置应答标识 0x01 成功
-                        header.setResponeFlag(0x01);
+                        header.setResponeFlag(responseFlag);
                         // 通用应答
                         CommonRespData resp = new CommonRespData();
 
@@ -191,6 +198,36 @@ public class DataParserGmmc implements IDataParser {
 
                         responseBytes = engine.encode(resp);// 生成应答包byte数组
                         GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
+                    } else if (0x12 == cmdFlag) {   //激活
+                        // 设置应答标识 0x01 成功
+                        header.setResponeFlag(responseFlag);
+                        //成功后TSP返回公钥，失败返回通用应答。
+                        if(reason == ERespReason.OK){
+                            ActivationRespData respData = new ActivationRespData() ;
+                            respData.setHeader(header);// 消息头
+                            respData.setGatherTime(System.currentTimeMillis());// 设置应答时间
+
+                            String deviceId = header.getImei() ;
+                            SecurityData securityData = keyMap.get(deviceId) ;
+                            if (null != securityData){
+                                respData.setPublicKeyExponent(securityData.getPublicKeyExponent());
+                                respData.setPublicKeyModulusBytes(GmmcDataPackUtils.coverToIntArray(securityData.getPublicKeyModulusBytes()));
+                            }
+                            respData.setTail(tail);// 包尾
+                            responseBytes = engine.encode(respData);// 生成应答包byte数组
+                            GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
+                        }else {
+                            // 通用应答
+                            CommonRespData resp = new CommonRespData();
+
+                            resp.setHeader(header);// 消息头
+                            resp.setGatherTime(System.currentTimeMillis());// 设置应答时间
+                            resp.setTail(tail);// 包尾
+
+                            responseBytes = engine.encode(resp);// 生成应答包byte数组
+                            GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
+                        }
+
                     } else if (0x21 == cmdFlag) { // TODO: 参数设置命令 返回参数设置列表
 
                     } else if (0x23 == cmdFlag) { // TODO: ota升级 返回ota升级信息
@@ -378,7 +415,7 @@ public class DataParserGmmc implements IDataParser {
     public String getDeviceId(ByteBuf buffer) {
         String deviceId = null ;
         // 获取解析报文并进行校验,报文校验不通过返回null
-        byte[] dataPackBytes = GmmcDataPackUtils.readBytes(buffer, buffer.readableBytes());
+        byte[] dataPackBytes = ByteBufUtil.getBytes(buffer) ;
         // 判断报文是否为空
         if (null != dataPackBytes) {
             for (int i = 0 ; i < dataPackBytes.length - 1 ; i++){

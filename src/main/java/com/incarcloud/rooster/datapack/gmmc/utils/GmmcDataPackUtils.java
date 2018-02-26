@@ -249,11 +249,6 @@ public class GmmcDataPackUtils extends DataPackUtil {
 			case 1:
 				// 第 10 位为 1，表示消息体经过 RSA 算法加密
 				msgEncryptName = "RSA";
-				break;
-			case 2:
-				// 第 10 位为 2，表示消息体经过 AES 算法加密
-				msgEncryptName = "RSA";
-				break;
 			case 0xFF:
 				// 第 10 位为 1，表示消息体经过 RSA 算法加密
 				break;
@@ -292,6 +287,19 @@ public class GmmcDataPackUtils extends DataPackUtil {
 			bytes[i] = (byte) ints[i];
 		}
 		return bytes;
+	}
+
+	/**
+	 * byte[]转换成int[]
+	 * @param bytes
+	 * @return
+	 */
+	public static int[] coverToIntArray(byte[] bytes) {
+		int[] ints = new int[bytes.length];
+		for (int i = 0; i < bytes.length; i++) {
+			ints[i] = bytes[i];
+		}
+		return ints;
 	}
 
 	protected GmmcDataPackUtils() {
