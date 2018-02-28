@@ -258,6 +258,37 @@ public class DataParserGmmc implements IDataParser {
     }
 
     /**
+     * AES 加密消息体
+     * securityKey 加密
+     * @param bytes 完整报文
+     * @param securityKey
+     * @return
+     */
+    public static byte[] encrypt(byte[] bytes,byte[] securityKey) throws Exception {
+
+        if (null != securityKey){
+            // 获取协议头
+            byte[] header = new byte[24];
+            System.arraycopy(bytes,0,header,0,header.length);
+
+            //获取消息体数据单元
+            byte[] body = new byte[bytes.length-25] ;
+            System.arraycopy(bytes,25,body,0,body.length);
+            //加密消息体
+            byte[] securityBody = AesUtil.encrypt(body,securityKey) ;
+
+            byte[] dataBytes = new byte[securityBody.length + 25] ;
+            System.arraycopy(header,0,dataBytes,0,24);
+            System.arraycopy(securityBody,0,dataBytes,25,securityBody.length);
+
+            //数据单元长度+检验码处理
+            GmmcDataPackUtils.addCheck(dataBytes);
+            return dataBytes ;
+        }
+        return null ;
+    }
+
+    /**
      * 销毁应答
      */
     @Override
@@ -386,7 +417,7 @@ public class DataParserGmmc implements IDataParser {
                         /**
                          * 车辆识别码(vin)是识别的唯一标识，由17位字码构成。前三位补0
                          */
-                        String vin = new String(GmmcDataPackUtils.getRange(dataPackBytes, 180, 197));
+                        String vin = new String(GmmcDataPackUtils.getRange(dataPackBytes, 68, 85));
                         metaDataMap.put(Constants.MetaDataMapKey.VIN, vin.trim());
                         metaDataMap.put(Constants.MetaDataMapKey.PACK_TYPE,Constants.PackType.LOGIN) ;
                         break;
