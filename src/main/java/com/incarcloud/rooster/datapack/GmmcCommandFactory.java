@@ -1,14 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.gmmc.model.CommonRespData;
-import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlAirData;
-import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlAirMoreData;
-import com.incarcloud.rooster.datapack.gmmc.model.DownlinkControlData;
-import com.incarcloud.rooster.datapack.gmmc.model.Header;
-import com.incarcloud.rooster.datapack.gmmc.model.OtaUpdateData;
-import com.incarcloud.rooster.datapack.gmmc.model.ParameterSettingData;
-import com.incarcloud.rooster.datapack.gmmc.model.Tail;
+import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandFacotryManager;
 import com.incarcloud.rooster.gather.cmd.CommandFactory;
@@ -17,6 +10,8 @@ import com.incarcloud.rooster.gather.cmd.CommandType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
+
+import java.util.Base64;
 
 /**
  * GMMC设备协议命令工厂
@@ -41,7 +36,7 @@ public class GmmcCommandFactory implements CommandFactory {
 	 */
 	@Override
 	public ByteBuf createCommand(CommandType type, Object... args) throws Exception {
-		// TODO 下发报文使用securityKey密钥AES加密
+		// 下发报文使用securityKey密钥AES加密
 		if (null == args && 0 < args.length) {
 			throw new IllegalArgumentException("args is null");
 		}
@@ -472,6 +467,10 @@ public class GmmcCommandFactory implements CommandFactory {
 
 		// 添加包体长度和校验码
 		responseBytes = GmmcDataPackUtils.addCheck(responseBytes);
+
+		//加密消息体
+		responseBytes = DataParserGmmc.encrypt(responseBytes, Base64.getDecoder().decode(securityKey)) ;
+
 		// 打印调试信息
 		GmmcDataPackUtils.debug(ByteBufUtil.hexDump(responseBytes));
 		// return
