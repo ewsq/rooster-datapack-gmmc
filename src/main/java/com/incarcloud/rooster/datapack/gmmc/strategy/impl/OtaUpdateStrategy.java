@@ -1,10 +1,7 @@
 package com.incarcloud.rooster.datapack.gmmc.strategy.impl;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.incarcloud.rooster.datapack.DataPack;
-import com.incarcloud.rooster.datapack.DataPackObject;
-import com.incarcloud.rooster.datapack.DataPackTarget;
-import com.incarcloud.rooster.datapack.DataPackTrip;
+import com.incarcloud.rooster.datapack.*;
 import com.incarcloud.rooster.datapack.gmmc.model.OtaUpdateResp;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
@@ -48,14 +45,15 @@ public class OtaUpdateStrategy implements IDataPackStrategy {
         // 设置数据加密方式
         dataPackObject.setEncryptName(GmmcDataPackUtils.getMsgEncryptMode(otaUpdateResp.getHeader().getEncryptType()));
 
-//        // 构建返回的数据
-//        OtaUpdateResp dataPackTrip = new OtaUpdateResp(dataPackObject);
-//        dataPackTrip.set
-//
-//        // 添加返回结果集
-//        dataPackTargetList.add(new DataPackTarget(dataPackTrip));
+        // 构建返回的数据
+        DataPackOtaCompleted dataPackOtaCompleted = new DataPackOtaCompleted(dataPackObject) ;
 
-        return null;
+        dataPackOtaCompleted.setVersion(otaUpdateResp.getSoftwareVersion());
+
+        // 添加返回结果集
+        dataPackTargetList.add(new DataPackTarget(dataPackOtaCompleted));
+
+        return dataPackTargetList;
     }
 
     @Override

@@ -182,6 +182,8 @@ public class DataParserGmmc implements IDataParser {
                         responseFlag = 0x01 ;
                     }else if(reason == ERespReason.MISMATCH){
                         responseFlag = 0x04 ;
+                    }else if(reason == ERespReason.ACTIVATED){
+                        responseFlag = 0x05 ;
                     }
 
                     if (0x11 == cmdFlag || 0x13 == cmdFlag || 0x01 == cmdFlag || 0x05 == cmdFlag
@@ -219,7 +221,6 @@ public class DataParserGmmc implements IDataParser {
                         }else {
                             // 通用应答
                             CommonRespData resp = new CommonRespData();
-
                             resp.setHeader(header);// 消息头
                             resp.setGatherTime(System.currentTimeMillis());// 设置应答时间
                             resp.setTail(tail);// 包尾
@@ -370,7 +371,9 @@ public class DataParserGmmc implements IDataParser {
                     dataPackTargetList = tripDataStrategy.decode(dataPack);
                     break;
                 case 0x24:// ota升级完成
-
+                    GmmcDataPackUtils.debug("=====OTA升级完成=====");
+                    IDataPackStrategy otaUpdateStrategy = new OtaUpdateStrategy() ;
+                    dataPackTargetList = otaUpdateStrategy.decode(dataPack) ;
                     break;
             }
         }

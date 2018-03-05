@@ -266,15 +266,6 @@ public class GmmcCommandFactory implements CommandFactory {
 					String softwareVersion = (String) args[3];
 					String updatePackageName = (String) args[4];
 					String url = (String) args[5];
-					// 头部信息
-					// Header header = new Header();
-					// header.setCarFlag(0x01);// 车辆类型标识 0x01燃油车 ；0x02 新能源车
-					// header.setCarType(0x01);// 车型 0x01 ZC；0xRE NS；0x03 NS
-					// header.setCmdFlag(0x23);// 命令标识
-					// header.setResponeFlag(0xFE);// 应答标识 命令包
-					// header.setImei(deviceId);// imei
-					// header.setEncryptType(0x01);// 加密方式
-					// header.setLength(0x00);// 数据单元长度
 
 					header.setCmdFlag(0x23);// 设置命令ID ota升级指令
 					ota.setHeader(header);
@@ -290,9 +281,7 @@ public class GmmcCommandFactory implements CommandFactory {
 					ota.setTail(tail);// 包尾
 
 					responseBytes = engine.encode(ota);// 报文封包
-					System.out.println("XXXXX:"+HexStringUtil.toHexString(responseBytes));
 				}
-
 				break;
 
 			case SET_PARAMS: // 参数设置
