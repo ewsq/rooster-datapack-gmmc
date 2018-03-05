@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
+import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.utils.GmmcDataPackUtils;
 import com.incarcloud.rooster.gather.cmd.CommandFacotryManager;
@@ -71,7 +72,7 @@ public class GmmcCommandFactory implements CommandFactory {
 		header.setCmdFlag(0x83);// 命令标识-车辆控制命令
 		header.setResponeFlag(0xFE);// 应答标识 命令包
 		header.setImei(deviceId);// imei
-		header.setEncryptType(0x01);// 加密方式
+		header.setEncryptType(0x02);// 加密方式
 		header.setLength(0x00);// 数据单元长度
 		downlink.setHeader(header);// 设置头部信息
 		downlink.setTail(tail);// 设置尾部信息
@@ -289,6 +290,7 @@ public class GmmcCommandFactory implements CommandFactory {
 					ota.setTail(tail);// 包尾
 
 					responseBytes = engine.encode(ota);// 报文封包
+					System.out.println("XXXXX:"+HexStringUtil.toHexString(responseBytes));
 				}
 
 				break;
@@ -472,7 +474,7 @@ public class GmmcCommandFactory implements CommandFactory {
 		responseBytes = DataParserGmmc.encrypt(responseBytes, Base64.getDecoder().decode(securityKey)) ;
 
 		// 打印调试信息
-		GmmcDataPackUtils.debug(ByteBufUtil.hexDump(responseBytes));
+		GmmcDataPackUtils.debug(HexStringUtil.toHexString(responseBytes));
 		// return
 		return Unpooled.wrappedBuffer(responseBytes);
 	}

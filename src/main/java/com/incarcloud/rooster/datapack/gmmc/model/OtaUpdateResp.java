@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack.gmmc.model;
 
 import com.github.io.protocol.annotation.AsciiString;
+import com.github.io.protocol.annotation.DateTime;
 import com.github.io.protocol.annotation.Element;
 import com.github.io.protocol.annotation.Number;
 
@@ -16,29 +17,36 @@ import com.github.io.protocol.annotation.Number;
 public class OtaUpdateResp {
 	@Element
 	private Header Header;
+
+	/**
+	 * 数据采集时间
+	 */
+	@DateTime
+	private long gatherTime;
 	/**
 	 * TBOX当前版本号
 	 */
 	@AsciiString(length = "10")
 	private String softwareVersion;
-	/**
-	 * 升级包文件名
-	 */
-	@AsciiString(length = "20")
-	private String updatePackageName;
-	/**
-	 * 是否需要升级.0 不需要;1 需要
-	 */
-	@Number(width = 8)
-	private int flag;
-	/**
-	 * 下载链接URL
-	 */
-	@AsciiString(length = "200")
-	private String url;
 
 	@Element
 	private Tail tail;
+
+	public com.incarcloud.rooster.datapack.gmmc.model.Header getHeader() {
+		return Header;
+	}
+
+	public void setHeader(com.incarcloud.rooster.datapack.gmmc.model.Header header) {
+		Header = header;
+	}
+
+	public long getGatherTime() {
+		return gatherTime;
+	}
+
+	public void setGatherTime(long gatherTime) {
+		this.gatherTime = gatherTime;
+	}
 
 	public String getSoftwareVersion() {
 		return softwareVersion;
@@ -46,38 +54,6 @@ public class OtaUpdateResp {
 
 	public void setSoftwareVersion(String softwareVersion) {
 		this.softwareVersion = softwareVersion;
-	}
-
-	public String getUpdatePackageName() {
-		return updatePackageName;
-	}
-
-	public void setUpdatePackageName(String updatePackageName) {
-		this.updatePackageName = updatePackageName;
-	}
-
-	public int getFlag() {
-		return flag;
-	}
-
-	public void setFlag(int flag) {
-		this.flag = flag;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Header getHeader() {
-		return Header;
-	}
-
-	public void setHeader(Header header) {
-		Header = header;
 	}
 
 	public Tail getTail() {
@@ -90,8 +66,11 @@ public class OtaUpdateResp {
 
 	@Override
 	public String toString() {
-		return "OtaUpdateResp [Header=" + Header + ", softwareVersion=" + softwareVersion + ", updatePackageName="
-				+ updatePackageName + ", flag=" + flag + ", url=" + url + ", tail=" + tail + "]";
+		return "OtaUpdateResp{" +
+				"Header=" + Header +
+				", gatherTime=" + gatherTime +
+				", softwareVersion='" + softwareVersion + '\'' +
+				", tail=" + tail +
+				'}';
 	}
-
 }

@@ -12,6 +12,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.ReferenceCountUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Base64;
@@ -22,6 +23,7 @@ import java.util.Base64;
 public class PackDataGenerateTest {
 
     @Test
+    @Ignore
     public void testGenerateActivationData() throws Exception {
         // 包头
         Header header = new Header();
@@ -51,6 +53,7 @@ public class PackDataGenerateTest {
     }
 
     @Test
+    @Ignore
     public void testGenerateLoginData() throws Exception {
         // 包头
         Header header = new Header();

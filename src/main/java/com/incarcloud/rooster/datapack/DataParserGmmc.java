@@ -230,21 +230,6 @@ public class DataParserGmmc implements IDataParser {
 
                     } else if (0x21 == cmdFlag) { // TODO: 参数设置命令 返回参数设置列表
 
-                    } else if (0x23 == cmdFlag) { // TODO: ota升级 返回ota升级信息
-                        OtaUpdateData ota = engine.decode(dataPackBytes, OtaUpdateData.class);
-                        // TODO 软件版本校验，校验当前tbox是否需要升级
-                        // 设置应答标识 0x01 成功
-                        header.setResponeFlag(0x01);
-                        OtaUpdateResp resp = new OtaUpdateResp();
-                        resp.setHeader(header);
-                        resp.setFlag(0);// 是否需要更新0 不需要 1 需要
-                        resp.setSoftwareVersion(ota.getSoftwareVersion());// 软件版本
-                        resp.setUpdatePackageName("test");
-                        resp.setUrl("http://www.incarcloud.com/");
-                        resp.setTail(tail);
-
-                        responseBytes = engine.encode(resp);// 生成应答包byte数组
-                        GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
                     }
                     // 返回应答消息
                     return Unpooled.wrappedBuffer(responseBytes);
@@ -273,13 +258,16 @@ public class DataParserGmmc implements IDataParser {
 
             //获取消息体数据单元
             byte[] body = new byte[bytes.length-25] ;
-            System.arraycopy(bytes,25,body,0,body.length);
+            System.arraycopy(bytes,24,body,0,body.length);
+
+            System.out.println("body:"+HexStringUtil.toHexString(body));
+
             //加密消息体
             byte[] securityBody = AesUtil.encrypt(body,securityKey) ;
 
             byte[] dataBytes = new byte[securityBody.length + 25] ;
             System.arraycopy(header,0,dataBytes,0,24);
-            System.arraycopy(securityBody,0,dataBytes,25,securityBody.length);
+            System.arraycopy(securityBody,0,dataBytes,24,securityBody.length);
 
             //数据单元长度+检验码处理
             GmmcDataPackUtils.addCheck(dataBytes);
@@ -300,6 +288,7 @@ public class DataParserGmmc implements IDataParser {
 
     /**
      * 解析完整数据包
+     * 上行-数据包
      */
     @Override
     public List<DataPackTarget> extractBody(DataPack dataPack) {
@@ -379,9 +368,6 @@ public class DataParserGmmc implements IDataParser {
                     GmmcDataPackUtils.debug("=====车辆行程数据=====");
                     IDataPackStrategy tripDataStrategy = new TripDataStrategy();
                     dataPackTargetList = tripDataStrategy.decode(dataPack);
-                    break;
-                case 0x23:// ota升级
-
                     break;
                 case 0x24:// ota升级完成
 
@@ -505,7 +491,7 @@ public class DataParserGmmc implements IDataParser {
      * @param deviceId
      * @param securityKey
      */
-    private void setSecurityKey(String deviceId,byte[] securityKey){
+    public void setSecurityKey(String deviceId,byte[] securityKey){
         SecurityData securityData = keyMap.get(deviceId) ;
         if (null == securityData) securityData = new SecurityData() ;
         securityData.setSecurityKey(securityKey);
