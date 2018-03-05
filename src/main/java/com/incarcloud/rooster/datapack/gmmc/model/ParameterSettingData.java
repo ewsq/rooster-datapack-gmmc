@@ -74,7 +74,7 @@ public class ParameterSettingData {
 	 */
 	@Number(width = 8)
 	private int pid9 = 0x09;
-	@Number(width = 16, order = ByteOrder.BigEndian)
+	@Number(width = 8, order = ByteOrder.BigEndian)
 	private int heartBeatCycle;
 	/**
 	 * 终端应答超时时间

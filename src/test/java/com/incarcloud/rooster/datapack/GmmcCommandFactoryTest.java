@@ -1,6 +1,7 @@
 package com.incarcloud.rooster.datapack;
 
 import com.incarcloud.rooster.gather.cmd.CommandType;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -17,6 +18,7 @@ public class GmmcCommandFactoryTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void testParamSet() throws Exception {
         GmmcCommandFactory factory = new GmmcCommandFactory();
         factory.createCommand(CommandType.SET_PARAMS, "862234021042470", 0, "111111111", 1, 1, 1, 1, 1, "2", 1, 1, 1, 1,

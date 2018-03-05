@@ -2,10 +2,14 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.GmmcCommandFactory;
 import com.incarcloud.rooster.datapack.gmmc.model.AlarmData;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.AlarmDataStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.RunDataStrategy;
+import com.incarcloud.rooster.gather.cmd.CommandType;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -40,6 +44,20 @@ public class RunDataTest {
 		// List<DataPackTarget> list = strategy09.decode(dataPack);
 		// System.out.println(list);
 		System.out.println(engine.toPrettyHexString(alarm));
+	}
+
+	@Test
+	@Ignore
+	public void runData() throws Exception {
+		GmmcCommandFactory facotry = new GmmcCommandFactory();
+		Object[] args = new Object[6] ;
+		args[0] = "862234021042470" ;
+		args[1] = 1 ;
+		args[2] = "MTljMDIwMjAtYmVjYi00AA==" ;
+		ByteBuf buffer = facotry.createCommand(CommandType.GET_RUN_INFO,args) ;
+		byte[] bytes = ByteBufUtil.getBytes(buffer) ;
+
+		System.out.println(HexStringUtil.toHexString(bytes));
 	}
 
 }
