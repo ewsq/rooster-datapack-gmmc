@@ -283,7 +283,7 @@ public class OverviewData {
 	 * “0xFE”表示异常，“0xFF”表示无效<br>
 	 */
 	@Number(width = 8)
-	private int OutsideTemperature;
+	private int outsideTemperature;
 
 	/**
 	 * 车内温度<br>
@@ -300,7 +300,7 @@ public class OverviewData {
 	 * 0xFF,0xFE 表示异常<br>
 	 * 0xFF,0xFF 表示无效<br>
 	 */
-	@Number(width = 8)
+	@Number(width = 16)
 	private int rechargeMileage;
 
 	/**
@@ -536,11 +536,11 @@ public class OverviewData {
 	}
 
 	public int getOutsideTemperature() {
-		return OutsideTemperature;
+		return outsideTemperature;
 	}
 
 	public void setOutsideTemperature(int outsideTemperature) {
-		OutsideTemperature = outsideTemperature;
+		this.outsideTemperature = outsideTemperature;
 	}
 
 	public int getInsideTemperature() {
@@ -588,7 +588,7 @@ public class OverviewData {
 				+ rightBackDoorStatus + ", frontCover=" + frontCover + ", trunkStatus=" + trunkStatus
 				+ ", leftFrontWindowStatus=" + leftFrontWindowStatus + ", rightFrontWindowStatus="
 				+ rightFrontWindowStatus + ", leftBackWindowStatus=" + leftBackWindowStatus + ", rightBackWindowStatus="
-				+ rightBackWindowStatus + ", OutsideTemperature=" + OutsideTemperature + ", insideTemperature="
+				+ rightBackWindowStatus + ", outsideTemperature=" + outsideTemperature + ", insideTemperature="
 				+ insideTemperature + ", rechargeMileage=" + rechargeMileage + ", lightStatus=" + lightStatus
 				+ ", reserve=" + reserve + "]";
 	}

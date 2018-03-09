@@ -1,7 +1,6 @@
 package com.incarcloud.rooster.datapack;
 
 import com.github.io.protocol.core.ProtocolEngine;
-import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
 import com.incarcloud.rooster.datapack.gmmc.strategy.impl.*;
@@ -229,8 +228,6 @@ public class DataParserGmmc implements IDataParser {
                             GmmcDataPackUtils.addCheck(responseBytes);// 添加校验码和包体长度
                         }
 
-                    } else if (0x21 == cmdFlag) { // TODO: 参数设置命令 返回参数设置列表
-
                     }
                     // 返回应答消息
                     return Unpooled.wrappedBuffer(responseBytes);
@@ -260,8 +257,6 @@ public class DataParserGmmc implements IDataParser {
             //获取消息体数据单元
             byte[] body = new byte[bytes.length-25] ;
             System.arraycopy(bytes,24,body,0,body.length);
-
-            System.out.println("body:"+HexStringUtil.toHexString(body));
 
             //加密消息体
             byte[] securityBody = AesUtil.encrypt(body,securityKey) ;

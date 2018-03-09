@@ -2,6 +2,9 @@ package com.incarcloud.rooster.datapack.model;
 
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.rooster.datapack.DataPack;
+import com.incarcloud.rooster.datapack.DataPackTarget;
+import com.incarcloud.rooster.datapack.DataParserGmmc;
 import com.incarcloud.rooster.datapack.GmmcCommandFactory;
 import com.incarcloud.rooster.datapack.gmmc.model.AlarmData;
 import com.incarcloud.rooster.datapack.gmmc.strategy.IDataPackStrategy;
@@ -10,8 +13,12 @@ import com.incarcloud.rooster.datapack.gmmc.strategy.impl.RunDataStrategy;
 import com.incarcloud.rooster.gather.cmd.CommandType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Base64;
+import java.util.List;
 
 public class RunDataTest {
 
@@ -58,6 +65,29 @@ public class RunDataTest {
 		byte[] bytes = ByteBufUtil.getBytes(buffer) ;
 
 		System.out.println(HexStringUtil.toHexString(bytes));
+	}
+
+	@Test
+	@Ignore
+	public void runDataTest(){
+		 String bytes = "2323010102FE39313131313131313131313131313902005046C25C932674905521DA6119EFAFF7094E59A4E397417E2D9C5001C99CFE279A30D79057601CE8FBBACCF8AB5364F937900B989BFCE159C0DC970E871669C695DB74AC6CE0F812E596E041F995277B8513";
+		 DataPack dataPack = new DataPack("test", "test", "test");
+		 ByteBuf buf = Unpooled.buffer();
+		 buf.writeBytes(HexStringUtil.parseBytes(bytes.replaceAll(" ", "")));
+		 dataPack.setBuf(buf);
+		DataParserGmmc dataParserGmmc = new DataParserGmmc() ;
+
+		String deviceId = "911111111111119" ;
+//		String privateKeye = "AKK4Nd+UzZlKinaojsM8NVTpNbn2ghTAcuWhtdWIaBXyLky1c1zMA44s8IggsWVcwrrX0+uOMSk6Ipri0evoFsgUGrRh9korYqZTEHpeZs1o0vMZRZDmcmm8hrz3HP/ADyYAQBcRg/71Y2NUMTNLxgkjNXgggrE6O7xXJUc5QigB";
+//		String privateKeyn = "AKM0hmWjszvrjEF8peF/23Vth6P2fNXcmNHjqf4QxlSmalt9FNwOIxDDMqFvkBE7NvdB7rpLScVS1JoiOr8+8GPx4VPdqHcqdubKCPBWWe1CPmlSlfKQHZACEfZ6qT0Eq8CP4g+s4jSRw3u0z8U8knL3v3YVG1ScijS9HEei3LIx" ;
+//		byte[] n = Base64.getDecoder().decode(privateKeyn) ;
+//		byte[] e = Base64.getDecoder().decode(privateKeye) ;
+//		dataParserGmmc.setPrivateKey(deviceId, n,e);
+		dataParserGmmc.setSecurityKey(deviceId,Base64.getDecoder().decode("71377NFhCqUMfrQ9CapOYA=="));
+
+		List<DataPack> dataPacks = dataParserGmmc.extract(buf) ;
+		 List<DataPackTarget> list = strategy.decode(dataPacks.get(0));
+		 System.out.println(list);
 	}
 
 }
