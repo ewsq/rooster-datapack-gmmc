@@ -165,6 +165,8 @@ public class RunDataStrategy implements IDataPackStrategy {
 						} else {
 							dataPackPosition.setPositioMode(DataPackPosition.POSITION_MODE_INVALID);
 						}
+						//速度
+						dataPackPosition.setSpeed(positionData.getSpeed());
 						// 经度
 						dataPackPosition.setLongitude(positionData.getLongitude());
 						// 纬度

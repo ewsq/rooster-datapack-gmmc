@@ -249,6 +249,9 @@ public class GmmcDataPackUtils extends DataPackUtil {
 			case 1:
 				// 第 10 位为 1，表示消息体经过 RSA 算法加密
 				msgEncryptName = "RSA";
+			case 2:
+				// 第 10 位为 1，表示消息体经过 AES 算法加密
+				msgEncryptName = "AES";
 			case 0xFF:
 				// 第 10 位为 1，表示消息体经过 RSA 算法加密
 				break;
