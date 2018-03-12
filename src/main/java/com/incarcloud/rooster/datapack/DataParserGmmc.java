@@ -350,7 +350,7 @@ public class DataParserGmmc implements IDataParser {
                 case 0x12:// 激活
                     // 解析设备激活信息
                     IDataPackStrategy activationStrategy = new ActivationStrategy();
-                    activationStrategy.decode(dataPack);
+                    dataPackTargetList = activationStrategy.decode(dataPack);
                     break;
 
                 case 0x13:// PublicKey重置

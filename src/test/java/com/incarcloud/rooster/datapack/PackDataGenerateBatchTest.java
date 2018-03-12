@@ -1,8 +1,5 @@
 package com.incarcloud.rooster.datapack;
 
-import com.github.io.protocol.annotation.ByteOrder;
-import com.github.io.protocol.annotation.Decimal;
-import com.github.io.protocol.annotation.Number;
 import com.github.io.protocol.core.ProtocolEngine;
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.rooster.datapack.gmmc.model.*;
@@ -13,8 +10,6 @@ import io.netty.buffer.ByteBufUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
-
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
@@ -40,8 +35,11 @@ public class PackDataGenerateBatchTest {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
+    public void activation(){
+
+    }
+
     @Test
-    @Ignore
     public void login() throws Exception {
         String vin = "LSBAAAAAAAAAAAA99" ;
         String deviceId = "911111111111119" ;
